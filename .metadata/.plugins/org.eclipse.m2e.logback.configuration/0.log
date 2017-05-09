@@ -1,0 +1,18 @@
+2017-05-09 15:00:27,608 [Worker-21] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.example:training-springboot:0.0.1-SNAPSHOT @ D:\Projects\training-springboot\training-springboot\pom.xml.
+2017-05-09 15:00:31,164 [Worker-21] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /training-springboot/src/main/java
+2017-05-09 15:00:31,165 [Worker-21] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /training-springboot/src/main/resources
+2017-05-09 15:00:31,172 [Worker-21] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /training-springboot/src/main/resources
+2017-05-09 15:00:31,199 [Worker-21] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /training-springboot/src/test/java
+2017-05-09 15:00:34,880 [Worker-21] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 1 project(s) in 10 sec
+2017-05-09 15:00:34,884 [Worker-21] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2017-05-09 15:00:35,488 [Worker-21] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.example:training-springboot:0.0.1-SNAPSHOT @ D:\Projects\training-springboot\training-springboot\pom.xml.
+2017-05-09 15:00:36,386 [Worker-21] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /training-springboot/src/main/java
+2017-05-09 15:00:36,386 [Worker-21] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /training-springboot/src/main/resources
+2017-05-09 15:00:36,388 [Worker-21] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /training-springboot/src/main/resources
+2017-05-09 15:00:36,389 [Worker-21] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /training-springboot/src/test/java
+2017-05-09 15:00:36,629 [Worker-21] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 1 sec
+2017-05-09 15:00:37,896 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-05-09 15:00:37,904 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2017-05-09 15:00:37,915 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-05-09 15:00:37,920 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-05-09 15:00:37,920 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Projects\training-springboot\training-springboot\src\test\resources
