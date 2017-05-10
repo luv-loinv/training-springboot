@@ -1,0 +1,76 @@
+*{
+	font-family: Times New Roman;
+	padding: 0;
+	margin: 0;
+}
+.head{
+	font-size: 19 ;
+}
+.btn {
+	color: blue;
+	background-color: lightgray;
+	width: 100px;
+	height: 25px;
+	border: 1px solid black;
+}
+#tbM1{
+	position: relative;
+	left: 40%;
+}
+
+#tbM1 tr td{
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.error{
+	color: red;
+	padding-left: 30%;
+}
+#search, #search table tr td, 
+#res-ex, #list, #pagging, 
+#info table tr td, #del-update, 
+#addForm table tr td {
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+.tblgrid{
+	border-collapse: collapse;
+	width: 97%;
+}
+.tblgrid tr td{
+	border: 1px solid black;
+}
+.formMH2{
+position: relative;
+left: 20%;
+margin-top: 8%;
+padding-left: 2%;
+border: 1px solid black;
+width: 55%;
+}
+
+.formMH3{
+position: relative;
+left: 30%;
+margin-top: 8%;
+padding-left: 2%;
+border: 1px solid black;
+width: 30%;
+}
+#backbtn{
+	margin: 20px 0px; 
+}
+#upbtn, #resbtn, #calbtn{
+	margin-left: 30px;
+}
+.colorM3 {
+	background-color: #ffffaa;
+}
+.formMH4{
+position: relative;
+left: 30%;
+margin-top: 8%;
+padding-left: 2%;
+border: 1px solid black;
+width: 30%;
+}

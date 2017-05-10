@@ -1,0 +1,124 @@
+<html>
+<head>
+	<meta charset="UTF-8"/>
+	<title> MH04 - Add</title>
+	<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+	<script language="javascript" src="javascript.js"> </script>
+</head>
+
+<body>
+<form action="" method="post" class="formMH4">
+ <div style="padding-left: 90%;">
+	<a href="MH01.html" > Logout </a>
+ </div>
+ <p class="head"> Thêm mới thông tin thẻ bảo hiểm </p>
+ <div id="addForm">
+	<table>
+		<tr> 
+		  <td colspan="2" class="error">
+			ERROR
+		  </td>
+		</tr>
+		
+		<tr> 
+		  <td>
+			Mã số thẻ bảo hiểm
+		  </td>
+		  <td>
+			<input type="textbox" value="" size="30%"/> (format: 10 chữ số)
+		  </td>
+		</tr>
+		
+		<tr> 
+		  <td>
+		  Họ và Tên
+		  </td>
+		  <td>
+		  <input type="textbox" value="" size="30%"/>
+		  </td>
+		</tr>
+		
+		<tr> 
+		  <td>
+		  Giới tính
+		  </td>
+		  <td>
+		  <input type="radio" name="gioitinh" value="01" checked="checked"> Nam
+		  <input type="radio" name="gioitinh" value="02"> Nữ
+		  </td>
+		</tr>
+		
+		<tr> 
+		  <td>
+		  Ngày sinh
+		  </td>
+		  <td>
+		  <input type="textbox" value="" /> <img src="img/calendar.jpg"/> (format: dd/MM/yyyy)
+		  </td>
+		</tr>
+		
+		<tr> 
+		  <td>
+		  Công ty
+		  </td>
+		  
+		  <td>
+			  <table>
+				<tr>
+					<td>
+					<input type="radio" name="cty" value="aa" checked="checked"> Công ty đã có
+					</td>
+					<td>
+					
+					</td>
+				</tr>
+					<td>
+					<input type="radio" name="cty" value="bb"> Đăng ký theo công ty mới
+					</td>
+					<td>
+					
+					</td>
+			  </table>	
+		  </td>
+		</tr>
+		
+		<tr> 
+		  <td>
+		  Nơi đăng ký KCB
+		  </td>
+		  <td>
+		  <input type="textbox" value="" /> 
+		  </td>
+		</tr>
+		
+		<tr> 
+		  <td>
+		  Ngày bắt đầu thẻ BH
+		  </td>
+		  <td>
+		  <input type="textbox" value="" /> <img src="img/calendar.jpg"/> (format: dd/MM/yyyy)
+		  </td>
+		</tr>
+		
+		<tr> 
+		  <td>
+		  Ngày kết thúc thẻ BH
+		  </td>
+		  <td>
+		  <input type="textbox" value="" /> <img src="img/calendar.jpg"/> (format: dd/MM/yyyy)
+		  </td>
+		</tr>
+		
+		<tr> 
+		  <td colspan="2">
+		  <input type="button" value="Hủy" class="btn" id="calbtn">
+		  <input type="submit" value="Đăng ký" class="btn" id="resbtn">
+		  </td>
+		</tr>
+	</table>	
+ 
+ </div>
+	
+</form>	
+</body>
+</html>
