@@ -3,11 +3,11 @@
 	<meta charset="UTF-8"/>
 	<title> MH04 - Add</title>
 	<link rel="stylesheet" type="text/css" href="../css/style.css"/>
-	<script language="javascript" src="javascript.js"> </script>
+	<script language="javascript" src="../js/javascript.js"> </script>
 </head>
 
 <body>
-<form action="" method="post" class="formMH4">
+<form action="" method="post" class="formMH4" name="form4">
  <div style="padding-left: 90%;">
 	<a href="MH01.html" > Logout </a>
  </div>
@@ -53,7 +53,7 @@
 		  Ngày sinh
 		  </td>
 		  <td>
-		  <input type="textbox" value="" /> <img src="img/calendar.jpg"/> (format: dd/MM/yyyy)
+		  <input type="textbox" value="" /> <img src="../img/calendar.jpg" class="img"/> (format: dd/MM/yyyy)
 		  </td>
 		</tr>
 		
@@ -66,18 +66,42 @@
 			  <table>
 				<tr>
 					<td>
-					<input type="radio" name="cty" value="aa" checked="checked"> Công ty đã có
-					</td>
-					<td>
-					
+					<input type="radio" name="cty" checked="checked" value="aa" onclick="showHide1()"> Công ty đã có
+					<div id="selectCom" style="display: block; padding-top: 20px;">
+						<select name="company"> 
+							<option value="1"> Luvina JSC </option>
+						</select>
+					</div>
 					</td>
 				</tr>
+				<tr>
 					<td>
-					<input type="radio" name="cty" value="bb"> Đăng ký theo công ty mới
+					<input type="radio" name="cty" value="bb" onclick="showHide2()"> Đăng ký theo công ty mới
+					<div id="tblCom" style="display: none;" >
+						<table>
+							<tr> 
+							  <td> Tên công ty </td>
+							  <td> <input type="textbox" value="" size="30"> </td>
+							</tr>
+							
+							<tr> 
+							  <td> Địa chỉ </td>
+							  <td> <input type="textbox" value="" size="30"> </td>
+							</tr>
+							
+							<tr> 
+							  <td> Email </td>
+							  <td> <input type="textbox" value="" size="30"> </td>
+							</tr>
+							
+							<tr> 
+							  <td> Điện thoại </td>
+							  <td> <input type="textbox" value="" size="30"> </td>
+							</tr>
+						</table>
+					</div>
 					</td>
-					<td>
-					
-					</td>
+				</tr>
 			  </table>	
 		  </td>
 		</tr>
@@ -96,7 +120,7 @@
 		  Ngày bắt đầu thẻ BH
 		  </td>
 		  <td>
-		  <input type="textbox" value="" /> <img src="img/calendar.jpg"/> (format: dd/MM/yyyy)
+		  <input type="textbox" value="" /> <img src="../img/calendar.jpg" class="img"/> (format: dd/MM/yyyy)
 		  </td>
 		</tr>
 		
@@ -105,7 +129,7 @@
 		  Ngày kết thúc thẻ BH
 		  </td>
 		  <td>
-		  <input type="textbox" value="" /> <img src="img/calendar.jpg"/> (format: dd/MM/yyyy)
+		  <input type="textbox" value="" /> <img src="../img/calendar.jpg" class="img"/> (format: dd/MM/yyyy)
 		  </td>
 		</tr>
 		
