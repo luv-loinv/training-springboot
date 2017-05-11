@@ -13,6 +13,11 @@
 	height: 25px;
 	border: 1px solid black;
 }
+.btn:hover {
+	cursor:pointer;
+	background-color: gray;
+	color: white;
+}
 #tbM1{
 	position: relative;
 	left: 40%;
@@ -74,3 +79,13 @@ padding-left: 2%;
 border: 1px solid black;
 width: 30%;
 }
+#tblSearch{
+	border: 1px solid black;
+	width: 430px;
+	
+}
+
+.tbl_MH2_col1{
+	padding-left: 8%;
+}
+
