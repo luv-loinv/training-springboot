@@ -18,6 +18,7 @@ apply plugin: 'org.springframework.boot'
 
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
@@ -27,8 +28,14 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile(
+        'org.springframework.boot:spring-boot-starter-web',
+        'org.apache.tomcat.embed:tomcat-embed-jasper',
+        'javax.servlet:jstl',
+        'org.eclipse.jdt.core.compiler:ecj:4.6.1',
+        'org.webjars:bootstrap:3.3.7'
+    )
 	runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
