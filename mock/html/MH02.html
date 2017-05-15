@@ -1,222 +1,146 @@
 <html>
 <head>
-	<meta charset="UTF-8"/>
-	<title> MH02 - List</title>
-	<link rel="stylesheet" type="text/css" href="../css/style.css"/>
-	<script language="javascript" src="../javascript.js"> </script>
+<meta charset="UTF-8" />
+<title>MH02 - List</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<script language="javascript" src="../javascript.js">
+	
+</script>
 </head>
 <body>
-<form action="" method="get" class="formMH2">
+	<form action="" method="get" class="formMH2">
 
-	<div style="padding-left: 90%;">
-	<a href="MH01.html" > Logout </a>
-	</div>
+		<div style="padding-left: 90%;">
+			<a href="MH01.html"> Logout </a>
+		</div>
 
-	<p class="head"> Danh sách thẻ bảo hiểm <p>
-	<div id="search"> 
-		<table>
-			<tr>
-				<td style="padding-left: 12%">
-					<p> <b>Tên công ty </b></p>
-					<select id="company">
-						<option value="1"> Luvina </option>
+		<p class="head">Danh sách thẻ bảo hiểm
+		<p>
+		<div id="search">
+			<table>
+				<tr>
+					<td style="padding-left: 12%">
+						<p>
+							<b>Tên công ty </b>
+						</p> <select id="company">
+							<option value="1">Luvina</option>
 					</select>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<p>
+							<b>Thông tin tìm kiếm </b>
+						</p>
+						<table id="tblSearch">
+							<tr>
+								<td class="tbl_MH2_col1">Tên người sử dụng</td>
+								<td><input type="text" value="" width="20" /></td>
+							</tr>
+
+							<tr>
+								<td class="tbl_MH2_col1">Mã số thẻ bảo hiểm</td>
+								<td><input type="text" value="" width="20" /></td>
+							</tr>
+
+							<tr>
+								<td class="tbl_MH2_col1">Nơi đăng ký</td>
+								<td><input type="text" value="" width="20" /></td>
+							</tr>
+
+							<tr>
+								<td colspan="2" style="padding-left: 35%"><input
+									type="submit" value="Tìm kiếm" class="btn" /></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="res-ex">
+			<input type="button" value="Đăng ký" class="btn"> <input
+				type="button" value="Export CSV" class="btn"
+				style="margin-left: 55%">
+		</div>
+
+		<div id="list">
+			<table class="tblgrid">
+				<tr>
+					<td align="left">Tên người sử dụng ▲<a href="">▼</a>
+					</td>
+					<td align="center">Giới tính</td>
+					<td align="center">Ngày sinh</td>
+					<td align="center">Mã số thẻ bảo hiểm</td>
+					<td align="center">Kỳ hạn</td>
+					<td align="center">Nơi đăng ký KCB</td>
+				</tr>
+
+				<tr>
+					<td style="padding-left: 5px;"><a href="MH03.html"> Nguyen
+							Van A</a></td>
+					<td align="center">Nam</td>
+					<td align="center">18/08/1988</td>
+					<td align="center">1234567890</td>
+					<td align="center">01/01/2015~30/12/2015</td>
+					<td style="padding-left: 5px;">Bệnh viện E</td>
+				</tr>
+
+				<tr>
+					<td style="padding-left: 5px;"><a href="MH03.html"> Nguyen
+							Van A</a></td>
+					<td align="center">Nam</td>
+					<td align="center">18/08/1988</td>
+					<td align="center">1234567890</td>
+					<td align="center">01/01/2015~30/12/2015</td>
+					<td style="padding-left: 5px;">Bệnh viện E</td>
+				</tr>
+
+				<tr>
+					<td style="padding-left: 5px;"><a href="MH03.html"> Nguyen
+							Van A</a></td>
+					<td align="center">Nam</td>
+					<td align="center">18/08/1988</td>
+					<td align="center">1234567890</td>
+					<td align="center">01/01/2015~30/12/2015</td>
+					<td style="padding-left: 5px;">Bệnh viện E</td>
+				</tr>
+
+				<tr>
+					<td style="padding-left: 5px;"><a href="MH03.html"> Nguyen
+							Van A</a></td>
+					<td align="center">Nam</td>
+					<td align="center">18/08/1988</td>
+					<td align="center">1234567890</td>
+					<td align="center">01/01/2015~30/12/2015</td>
+					<td style="padding-left: 5px;">Bệnh viện E</td>
+				</tr>
+
+				<tr>
+					<td style="padding-left: 5px;"><a href="MH03.html"> Nguyen
+							Van A</a></td>
+					<td align="center">Nam</td>
+					<td align="center">18/08/1988</td>
+					<td align="center">1234567890</td>
+					<td align="center">01/01/2015~30/12/2015</td>
+					<td style="padding-left: 5px;">Bệnh viện E</td>
+				</tr>
+
+
 				</td>
-			</tr>
-			
-			<tr>
-			<td>
-				<p> <b>Thông tin tìm kiếm </b></p>
-				<table id="tblSearch" >
-					<tr>
-						<td class="tbl_MH2_col1">
-							Tên người sử dụng
-						</td>
-						<td>
-							<input type="textbox" value="" width="20">
-						</td>
-					</tr>
-					
-					<tr>
-						<td class="tbl_MH2_col1">
-							Mã số thẻ bảo hiểm
-						</td>
-						<td>
-							<input type="textbox" value="" width="20">
-						</td>
-					</tr>
-					
-					<tr>
-						<td class="tbl_MH2_col1">
-							Nơi đăng ký
-						</td>
-						<td>
-							<input type="textbox" value="" width="20">
-						</td>
-					</tr>
-					
-					<tr>
-						<td colspan="2" style="padding-left: 35%">
-						<input type="submit" value="Tìm kiếm" class="btn"/> 
-						</td>
-					</tr>
-				</table>
-			</td>	
-			</tr>
-		</table>
-	</div>
-	
-	<div id="res-ex"> 
-		<input type="button" value="Đăng ký" class="btn">
-		<input type="button" value="Export CSV" class="btn" style="margin-left: 55%">
-	</div>
-	
-	<div id="list"> 
-		<table class="tblgrid" >
-		  <tr> 
-			<td align="left">
-				Tên người sử dụng   ▲<a href="">▼</a> 
-			</td>
-			<td align="center">
-				Giới tính
-			</td>
-			<td align="center">
-				Ngày sinh
-			</td>
-			<td align="center">
-				Mã số thẻ bảo hiểm
-			</td>
-			<td align="center">
-				Kỳ hạn
-			</td>
-			<td align="center">
-				Nơi đăng ký KCB
-			</td>
-		  </tr>
-		  
-		  <tr> 
-			<td style="padding-left: 5px;">
-				<a href="MH03.html"> Nguyen Van A</a>
-			</td>
-			<td align="center">
-				Nam
-			</td>
-			<td align="center">
-				18/08/1988
-			</td>
-			<td align="center">
-				1234567890
-			</td>
-			<td align="center">
-				01/01/2015~30/12/2015
-			</td>
-			<td style="padding-left: 5px;">
-				Bệnh viện E
-			</td>
-		  </tr>
-		  
-		 <tr> 
-			<td style="padding-left: 5px;">
-				<a href="MH03.html"> Nguyen Van A</a>
-			</td>
-			<td align="center">
-				Nam
-			</td>
-			<td align="center">
-				18/08/1988
-			</td>
-			<td align="center">
-				1234567890
-			</td>
-			<td align="center">
-				01/01/2015~30/12/2015
-			</td>
-			<td style="padding-left: 5px;">
-				Bệnh viện E
-			</td>
-		  </tr>
-		  
-		  <tr> 
-			<td style="padding-left: 5px;">
-				<a href="MH03.html"> Nguyen Van A</a>
-			</td>
-			<td align="center">
-				Nam
-			</td>
-			<td align="center">
-				18/08/1988
-			</td>
-			<td align="center">
-				1234567890
-			</td>
-			<td align="center">
-				01/01/2015~30/12/2015
-			</td>
-			<td style="padding-left: 5px;">
-				Bệnh viện E
-			</td>
-		  </tr>
-		  
-		  <tr> 
-			<td style="padding-left: 5px;">
-				<a href="MH03.html"> Nguyen Van A</a>
-			</td>
-			<td align="center">
-				Nam
-			</td>
-			<td align="center">
-				18/08/1988
-			</td>
-			<td align="center">
-				1234567890
-			</td>
-			<td align="center">
-				01/01/2015~30/12/2015
-			</td>
-			<td style="padding-left: 5px;">
-				Bệnh viện E
-			</td>
-		  </tr>
-		  
-		  <tr> 
-			<td style="padding-left: 5px;">
-				<a href="MH03.html"> Nguyen Van A</a>
-			</td>
-			<td align="center">
-				Nam
-			</td>
-			<td align="center">
-				18/08/1988
-			</td>
-			<td align="center">
-				1234567890
-			</td>
-			<td align="center">
-				01/01/2015~30/12/2015
-			</td>
-			<td style="padding-left: 5px;">
-				Bệnh viện E
-			</td>
-		  </tr>
-		  
-			
-			</td>
-		  </tr>
-		</table>
-		
-		<div id="pagging"> 
-			 <a href=""> << |</a>
-			 <a href=""> 1 |</a>
-			 <a href=""> 2 |</a>
-			 <a href=""> 3 |</a>
-			 <a href=""> 4 |</a>
-			 <a href=""> 5 |</a>
-			 <a href=""> >> </a>
-	</div>
-		
-	</div>
-	
-	
-</form>
+				</tr>
+			</table>
+
+			<div id="pagging">
+				<a href=""> << |</a> <a href=""> 1 |</a> <a href=""> 2 |</a> <a
+					href=""> 3 |</a> <a href=""> 4 |</a> <a href=""> 5 |</a> <a href="">
+					>> </a>
+			</div>
+
+		</div>
+
+
+	</form>
 </body>
 </html>

@@ -1,148 +1,120 @@
 <html>
 <head>
-	<meta charset="UTF-8"/>
-	<title> MH04 - Add</title>
-	<link rel="stylesheet" type="text/css" href="../css/style.css"/>
-	<script language="javascript" src="../js/javascript.js"> </script>
+<meta charset="UTF-8" />
+<title>MH04 - Add</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<script language="javascript" src="../js/javascript.js">
+	
+</script>
 </head>
 
 <body>
-<form action="" method="post" class="formMH4" name="form4">
- <div style="padding-left: 90%;">
-	<a href="MH01.html" > Logout </a>
- </div>
- <p class="head"> Thêm mới thông tin thẻ bảo hiểm </p>
- <div id="addForm">
-	<table>
-		<tr> 
-		  <td colspan="2" class="error">
-			ERROR
-		  </td>
-		</tr>
-		
-		<tr> 
-		  <td>
-			Mã số thẻ bảo hiểm
-		  </td>
-		  <td>
-			<input type="textbox" value="" size="30%"/> (format: 10 chữ số)
-		  </td>
-		</tr>
-		
-		<tr> 
-		  <td>
-		  Họ và Tên
-		  </td>
-		  <td>
-		  <input type="textbox" value="" size="30%"/>
-		  </td>
-		</tr>
-		
-		<tr> 
-		  <td>
-		  Giới tính
-		  </td>
-		  <td>
-		  <input type="radio" name="gioitinh" value="01" checked="checked"> Nam
-		  <input type="radio" name="gioitinh" value="02"> Nữ
-		  </td>
-		</tr>
-		
-		<tr> 
-		  <td>
-		  Ngày sinh
-		  </td>
-		  <td>
-		  <input type="textbox" value="" /> <img src="../img/calendar.jpg" class="img"/> (format: dd/MM/yyyy)
-		  </td>
-		</tr>
-		
-		<tr> 
-		  <td>
-		  Công ty
-		  </td>
-		  
-		  <td>
-			  <table>
+	<form action="" method="post" class="formMH4" name="form4">
+		<div style="padding-left: 90%;">
+			<a href="MH01.html"> Logout </a>
+		</div>
+		<p class="head">Thêm mới thông tin thẻ bảo hiểm</p>
+		<div id="addForm">
+			<table>
 				<tr>
-					<td>
-					<input type="radio" name="cty" checked="checked" value="aa" onclick="showHide1()"> Công ty đã có
-					<div id="selectCom" style="display: block; padding-top: 20px;">
-						<select name="company"> 
-							<option value="1"> Luvina JSC </option>
-						</select>
-					</div>
-					</td>
+					<td colspan="2" class="error">ERROR</td>
 				</tr>
+
 				<tr>
+					<td>Mã số thẻ bảo hiểm</td>
+					<td><input type="text" value="" size="30%" /> (format: 10 chữ
+						số)</td>
+				</tr>
+
+				<tr>
+					<td>Họ và Tên</td>
+					<td><input type="text" value="" size="30%" /></td>
+				</tr>
+
+				<tr>
+					<td>Giới tính</td>
+					<td><input type="radio" name="gioitinh" value="01"
+						checked="checked"> Nam <input type="radio" name="gioitinh"
+						value="02"> Nữ</td>
+				</tr>
+
+				<tr>
+					<td>Ngày sinh</td>
+					<td><input type="text" value="" /> <img
+						src="../img/calendar.jpg" class="img" /> (format: dd/MM/yyyy)</td>
+				</tr>
+
+				<tr>
+					<td>Công ty</td>
+
 					<td>
-					<input type="radio" name="cty" value="bb" onclick="showHide2()"> Đăng ký theo công ty mới
-					<div id="tblCom" style="display: none;" >
 						<table>
-							<tr> 
-							  <td> Tên công ty </td>
-							  <td> <input type="textbox" value="" size="30"> </td>
+							<tr>
+								<td><input type="radio" name="cty" checked="checked"
+									value="aa" onclick="showHide1()"> Công ty đã có
+									<div id="selectCom" style="display: block; padding-top: 20px;">
+										<select name="company">
+											<option value="1">Luvina JSC</option>
+										</select>
+									</div></td>
 							</tr>
-							
-							<tr> 
-							  <td> Địa chỉ </td>
-							  <td> <input type="textbox" value="" size="30"> </td>
-							</tr>
-							
-							<tr> 
-							  <td> Email </td>
-							  <td> <input type="textbox" value="" size="30"> </td>
-							</tr>
-							
-							<tr> 
-							  <td> Điện thoại </td>
-							  <td> <input type="textbox" value="" size="30"> </td>
+							<tr>
+								<td><input type="radio" name="cty" value="bb"
+									onclick="showHide2()"> Đăng ký theo công ty mới
+									<div id="tblCom" style="display: none;">
+										<table>
+											<tr>
+												<td>Tên công ty</td>
+												<td><input type="text" value="" size="30"></td>
+											</tr>
+
+											<tr>
+												<td>Địa chỉ</td>
+												<td><input type="text" value="" size="30"></td>
+											</tr>
+
+											<tr>
+												<td>Email</td>
+												<td><input type="text" value="" size="30"></td>
+											</tr>
+
+											<tr>
+												<td>Điện thoại</td>
+												<td><input type="text" value="" size="30"></td>
+											</tr>
+										</table>
+									</div></td>
 							</tr>
 						</table>
-					</div>
 					</td>
 				</tr>
-			  </table>	
-		  </td>
-		</tr>
-		
-		<tr> 
-		  <td>
-		  Nơi đăng ký KCB
-		  </td>
-		  <td>
-		  <input type="textbox" value="" /> 
-		  </td>
-		</tr>
-		
-		<tr> 
-		  <td>
-		  Ngày bắt đầu thẻ BH
-		  </td>
-		  <td>
-		  <input type="textbox" value="" /> <img src="../img/calendar.jpg" class="img"/> (format: dd/MM/yyyy)
-		  </td>
-		</tr>
-		
-		<tr> 
-		  <td>
-		  Ngày kết thúc thẻ BH
-		  </td>
-		  <td>
-		  <input type="textbox" value="" /> <img src="../img/calendar.jpg" class="img"/> (format: dd/MM/yyyy)
-		  </td>
-		</tr>
-		
-		<tr> 
-		  <td colspan="2">
-		  <input type="button" value="Hủy" class="btn" id="calbtn">
-		  <input type="submit" value="Đăng ký" class="btn" id="resbtn">
-		  </td>
-		</tr>
-	</table>	
- 
- </div>
-	
-</form>	
+
+				<tr>
+					<td>Nơi đăng ký KCB</td>
+					<td><input type="text" value="" /></td>
+				</tr>
+
+				<tr>
+					<td>Ngày bắt đầu thẻ BH</td>
+					<td><input type="text" value="" /> <img
+						src="../img/calendar.jpg" class="img" /> (format: dd/MM/yyyy)</td>
+				</tr>
+
+				<tr>
+					<td>Ngày kết thúc thẻ BH</td>
+					<td><input type="text" value="" /> <img
+						src="../img/calendar.jpg" class="img" /> (format: dd/MM/yyyy)</td>
+				</tr>
+
+				<tr>
+					<td colspan="2"><input type="button" value="Hủy" class="btn"
+						id="calbtn"> <input type="submit" value="Đăng ký"
+						class="btn" id="resbtn"></td>
+				</tr>
+			</table>
+
+		</div>
+
+	</form>
 </body>
 </html>
