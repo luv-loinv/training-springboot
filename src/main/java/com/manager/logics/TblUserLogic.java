@@ -19,10 +19,14 @@ public class TblUserLogic {
 
 	public List<TblUser> findByUsernameAndPassword(String username, String password) {
 		return userDao.findByUsernameAndPassword(username, password);
+
 	}
 
 	public List<TblUser> findAll() {
 		return userDao.findAll();
 	}
-	
+
+	public List<TblUser> findByUserFullName(String user_full_name) {
+		return userDao.findByUserFullName(user_full_name);
+	}
 }

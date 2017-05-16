@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -45,7 +43,7 @@ public class TblUser {
 
 	@NotNull
 	@Column(name = "user_full_name")
-	private String user_full_name;
+	private String userFullName;
 
 	@NotNull
 	@Column(name = "user_sex_division")
@@ -133,7 +131,7 @@ public class TblUser {
 	 * @return the user_full_name
 	 */
 	public String getUser_full_name() {
-		return user_full_name;
+		return userFullName;
 	}
 
 	/**
@@ -141,7 +139,7 @@ public class TblUser {
 	 *            the user_full_name to set
 	 */
 	public void setUser_full_name(String user_full_name) {
-		this.user_full_name = user_full_name;
+		this.userFullName = user_full_name;
 	}
 
 	/**
