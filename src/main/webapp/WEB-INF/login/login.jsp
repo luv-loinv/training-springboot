@@ -3,19 +3,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-		<style type="text/css">
-			table{
-				border-collapse: collapse;
-			}
-			table, th, td{
-				border:none;
-			}
-			.alignCenter {
-				text-align: right;
-				padding-top : 20px;
-			}
-		</style>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <title>MH01 - Đăng nhập</title>
     </head>
     <body>
     	<font color="red">${message}</font>
@@ -25,7 +15,9 @@
 			<form:input id="userName" name="userName" path="" /><br>
 			<form:label path="passWord">Mật khẩu</form:label>
 			<form:password id="passWord" name="passWord" path="" /><br>
-			<input type="submit" value="Đăng nhập" />
+			<div class="btn">
+				<input type="submit" value="Đăng nhập" />
+			</div>
     	</form:form>
     </body>
 </html>

@@ -7,11 +7,11 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.spring.entity.TblUser;
+import com.spring.entity.TblCompany;
 
 @Transactional
 @Repository
-public interface LoginDao extends JpaRepository<TblUser, Integer> {
+public interface InsuranceDao extends JpaRepository<TblCompany, Integer> {
 
-	List<TblUser> findByUsernameAndPassword(String username, String password);
+	List<TblCompany> findAll();
 }

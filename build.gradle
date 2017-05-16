@@ -34,6 +34,7 @@ dependencies {
         'org.apache.tomcat.embed:tomcat-embed-jasper',
         'javax.servlet:jstl',
         'org.eclipse.jdt.core.compiler:ecj:4.6.1',
+        'org.webjars:bootstrap:3.3.7',
         'org.webjars:bootstrap:3.3.7'
     )
 	runtime('org.springframework.boot:spring-boot-devtools')
