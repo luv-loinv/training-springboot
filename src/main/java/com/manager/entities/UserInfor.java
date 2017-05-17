@@ -10,6 +10,13 @@ public class UserInfor {
 	private Date insurance_end_date;
 	private char user_sex_division;
 	private Date birthdate;
+	private String companyName;
+	private String adress;
+	private String telephone;
+	private String birthdateInput;
+	private String startDateInput;
+	private String endDateInput;
+	private String email;
 
 	/**
 	 * @param user_full_name
@@ -29,6 +36,35 @@ public class UserInfor {
 		this.insurance_end_date = insurance_end_date;
 		this.user_sex_division = user_sex_division;
 		this.birthdate = birthdate;
+	}
+
+	/**
+	 * @param user_full_name
+	 * @param insurance_number
+	 * @param place_of_register
+	 * @param user_sex_division
+	 * @param companyName
+	 * @param adress
+	 * @param telephone
+	 * @param birthdateInput
+	 * @param startDateInput
+	 * @param endDateInput
+	 */
+	public UserInfor(String user_full_name, String insurance_number, String place_of_register, char user_sex_division,
+			String companyName, String adress, String telephone, String birthdateInput, String startDateInput,
+			String endDateInput, String email) {
+		super();
+		this.user_full_name = user_full_name;
+		this.insurance_number = insurance_number;
+		this.place_of_register = place_of_register;
+		this.user_sex_division = user_sex_division;
+		this.companyName = companyName;
+		this.adress = adress;
+		this.telephone = telephone;
+		this.birthdateInput = birthdateInput;
+		this.startDateInput = startDateInput;
+		this.endDateInput = endDateInput;
+		this.email = email;
 	}
 
 	/**
@@ -134,6 +170,111 @@ public class UserInfor {
 	 */
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
+	}
+
+	/**
+	 * @return the companyName
+	 */
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	/**
+	 * @param companyName
+	 *            the companyName to set
+	 */
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	/**
+	 * @return the adress
+	 */
+	public String getAdress() {
+		return adress;
+	}
+
+	/**
+	 * @param adress
+	 *            the adress to set
+	 */
+	public void setAdress(String adress) {
+		this.adress = adress;
+	}
+
+	/**
+	 * @return the telephone
+	 */
+	public String getTelephone() {
+		return telephone;
+	}
+
+	/**
+	 * @param telephone
+	 *            the telephone to set
+	 */
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	/**
+	 * @return the birthdateInput
+	 */
+	public String getBirthdateInput() {
+		return birthdateInput;
+	}
+
+	/**
+	 * @param birthdateInput
+	 *            the birthdateInput to set
+	 */
+	public void setBirthdateInput(String birthdateInput) {
+		this.birthdateInput = birthdateInput;
+	}
+
+	/**
+	 * @return the startDateInput
+	 */
+	public String getStartDateInput() {
+		return startDateInput;
+	}
+
+	/**
+	 * @param startDateInput
+	 *            the startDateInput to set
+	 */
+	public void setStartDateInput(String startDateInput) {
+		this.startDateInput = startDateInput;
+	}
+
+	/**
+	 * @return the endDateInput
+	 */
+	public String getEndDateInput() {
+		return endDateInput;
+	}
+
+	/**
+	 * @param endDateInput
+	 *            the endDateInput to set
+	 */
+	public void setEndDateInput(String endDateInput) {
+		this.endDateInput = endDateInput;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email
+	 *            the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

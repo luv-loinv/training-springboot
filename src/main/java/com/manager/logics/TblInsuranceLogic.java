@@ -28,4 +28,12 @@ public class TblInsuranceLogic {
 	public List<TblInsurance> findByInsuranceNumberAndPlaceOfRegister(String insnumber, String place) {
 		return insurenceDao.findByInsuranceNumberAndPlaceOfRegister(insnumber, place);
 	}
+
+	public boolean checkExistIns(String insuranceNumber) {
+		int count = insurenceDao.findByInsuranceNumber(insuranceNumber).size();
+		if (count == 0) {
+			return false;
+		}
+		return true;
+	}
 }

@@ -21,10 +21,8 @@ public class UserInforLogic {
 	@Autowired
 	private TblInsuranceDao insuranceDao;
 
-	public List<UserInfor> getListUserInfor(String fullName, String insurancenumber, String place, String sortBy,
-			String sortType, int offSet, int limit) {
-		// viết lại paging, sử dụng pageable
-		
+	public List<UserInfor> getListUserInfor(String fullName, String insurancenumber, String place) {
+
 		List<UserInfor> listUserInfor = new ArrayList<UserInfor>();
 		// truong hop moi vao va 3 dieu kien tim kiem rong
 		if ("".equals(fullName) && "".equals(insurancenumber) && "".equals(place)) {
@@ -41,16 +39,21 @@ public class UserInforLogic {
 			// tim kiem khi biet place
 		} else if ("".equals(fullName) && "".equals(insurancenumber)) {
 			List<TblInsurance> listInsurance = insuranceDao.findByPlaceOfRegister(place);
-			if (listInsurance.size() != 0) {
+			int sizeIns = listInsurance.size();
+			if (sizeIns != 0) {
 				List<TblUser> listUser = userDao.findAll();
 				int size = listUser.size();
 				for (int i = 0; i < size; i++) {
 					TblUser user = listUser.get(i);
-					TblInsurance insurance = listInsurance.get(0);
-					if (user.getInsurance_internal_id() == insurance.getInsurance_internal_id()) {
-						listUserInfor.add(new UserInfor(user.getUser_full_name(), insurance.getInsurance_number(),
-								insurance.getPlace_of_register(), insurance.getInsurance_start_date(),
-								insurance.getInsurance_end_date(), user.getUser_sex_division(), user.getBirthdate()));
+					for (int j = 0; j < sizeIns; j++) {
+
+						TblInsurance insurance = listInsurance.get(j);
+						if (user.getInsurance_internal_id() == insurance.getInsurance_internal_id()) {
+							listUserInfor.add(new UserInfor(user.getUser_full_name(), insurance.getInsurance_number(),
+									insurance.getPlace_of_register(), insurance.getInsurance_start_date(),
+									insurance.getInsurance_end_date(), user.getUser_sex_division(),
+									user.getBirthdate()));
+						}
 					}
 				}
 			}
@@ -148,5 +151,8 @@ public class UserInforLogic {
 		}
 		return listUserInfor;
 	}
-
+	
+//	public void insertUser() {
+//
+//	}
 }

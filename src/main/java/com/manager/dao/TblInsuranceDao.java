@@ -16,4 +16,7 @@ public interface TblInsuranceDao extends JpaRepository<TblInsurance, Integer> {
 	List<TblInsurance> findByPlaceOfRegister(String place);
 
 	List<TblInsurance> findByInsuranceNumberAndPlaceOfRegister(String insnumber, String place);
+
+//	@Query("select count(*) from tbl_user t where t.username = ?1")
+//	int findCountByInsuranceNumber(String insuranceNumber);
 }
