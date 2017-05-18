@@ -11,12 +11,12 @@ import com.manager.entities.TblInsurance;
 @Transactional
 public interface TblInsuranceDao extends JpaRepository<TblInsurance, Integer> {
 
-	List<TblInsurance> findByInsuranceNumber(String insurancenumber);
+	TblInsurance findByInsuranceNumber(String insurance);
 
-	List<TblInsurance> findByPlaceOfRegister(String place);
+	List<TblInsurance> findByInsuranceNumberContaining(String insurancenumber);
 
-	List<TblInsurance> findByInsuranceNumberAndPlaceOfRegister(String insnumber, String place);
+	List<TblInsurance> findByPlaceOfRegisterContaining(String place);
 
-//	@Query("select count(*) from tbl_user t where t.username = ?1")
-//	int findCountByInsuranceNumber(String insuranceNumber);
+	List<TblInsurance> findByInsuranceNumberContainingAndPlaceOfRegisterContaining(String insnumber, String place);
+
 }

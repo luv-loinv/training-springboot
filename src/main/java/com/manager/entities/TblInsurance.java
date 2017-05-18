@@ -36,6 +36,28 @@ public class TblInsurance {
 	private String placeOfRegister;
 
 	/**
+	 * 
+	 */
+	public TblInsurance() {
+		super();
+	}
+
+	/**
+	 * @param insuranceNumber
+	 * @param insurance_start_date
+	 * @param insurance_end_date
+	 * @param placeOfRegister
+	 */
+	public TblInsurance(String insuranceNumber, Date insurance_start_date, Date insurance_end_date,
+			String placeOfRegister) {
+		super();
+		this.insuranceNumber = insuranceNumber;
+		this.insurance_start_date = insurance_start_date;
+		this.insurance_end_date = insurance_end_date;
+		this.placeOfRegister = placeOfRegister;
+	}
+
+	/**
 	 * @return the insurance_internal_id
 	 */
 	public int getInsurance_internal_id() {

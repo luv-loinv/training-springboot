@@ -3,6 +3,7 @@ package com.manager.entities;
 import java.util.Date;
 
 public class UserInfor {
+	private int userID;
 	private String user_full_name;
 	private String insurance_number;
 	private String place_of_register;
@@ -19,6 +20,7 @@ public class UserInfor {
 	private String email;
 
 	/**
+	 * @param i
 	 * @param user_full_name
 	 * @param insurance_number
 	 * @param place_of_register
@@ -27,8 +29,9 @@ public class UserInfor {
 	 * @param user_sex_division
 	 * @param birthdate
 	 */
-	public UserInfor(String user_full_name, String insurance_number, String place_of_register,
+	public UserInfor(int userID, String user_full_name, String insurance_number, String place_of_register,
 			Date insurance_start_date, Date insurance_end_date, char user_sex_division, Date birthdate) {
+		this.userID = userID;
 		this.user_full_name = user_full_name;
 		this.insurance_number = insurance_number;
 		this.place_of_register = place_of_register;
@@ -275,6 +278,21 @@ public class UserInfor {
 	 */
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	/**
+	 * @return the userID
+	 */
+	public int getUserID() {
+		return userID;
+	}
+
+	/**
+	 * @param userID
+	 *            the userID to set
+	 */
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 
 }

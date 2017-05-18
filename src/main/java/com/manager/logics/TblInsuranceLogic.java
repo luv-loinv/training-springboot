@@ -18,22 +18,23 @@ public class TblInsuranceLogic {
 	}
 
 	public List<TblInsurance> findByInsuranceNumber(String insurancenumber) {
-		return insurenceDao.findByInsuranceNumber(insurancenumber);
+		return insurenceDao.findByInsuranceNumberContaining(insurancenumber);
 	}
 
-	public List<TblInsurance> findByPlaceOfRegister(String place) {
-		return insurenceDao.findByPlaceOfRegister(place);
+	public List<TblInsurance> findByPlaceOfRegisterLike(String place) {
+		return insurenceDao.findByPlaceOfRegisterContaining(place);
 	}
 
-	public List<TblInsurance> findByInsuranceNumberAndPlaceOfRegister(String insnumber, String place) {
-		return insurenceDao.findByInsuranceNumberAndPlaceOfRegister(insnumber, place);
+	public List<TblInsurance> findByInsuranceNumberAndPlaceOfRegisterLike(String insnumber, String place) {
+		return insurenceDao.findByInsuranceNumberContainingAndPlaceOfRegisterContaining(insnumber, place);
 	}
 
 	public boolean checkExistIns(String insuranceNumber) {
-		int count = insurenceDao.findByInsuranceNumber(insuranceNumber).size();
-		if (count == 0) {
+		try {
+			insurenceDao.findByInsuranceNumber(insuranceNumber);
+			return true;
+		} catch (NullPointerException e) {
 			return false;
 		}
-		return true;
 	}
 }

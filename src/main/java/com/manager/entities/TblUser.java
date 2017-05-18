@@ -53,6 +53,25 @@ public class TblUser {
 	private Date birthdate;
 
 	/**
+	 * 
+	 */
+	public TblUser() {
+		super();
+	}
+
+	/**
+	 * @param userFullName
+	 * @param user_sex_division
+	 * @param birthdate
+	 */
+	public TblUser(String userFullName, char user_sex_division, Date birthdate) {
+		super();
+		this.userFullName = userFullName;
+		this.user_sex_division = user_sex_division;
+		this.birthdate = birthdate;
+	}
+
+	/**
 	 * @return the user_internal_id
 	 */
 	public int getUser_internal_id() {

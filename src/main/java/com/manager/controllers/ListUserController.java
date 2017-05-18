@@ -46,7 +46,7 @@ public class ListUserController {
 	 * @param mapParam
 	 * @return
 	 */
-	@RequestMapping(value = { "/listUser" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/listUser", "/listUserBack" }, method = RequestMethod.GET)
 	public String loginPage(Model model, @RequestParam Map<String, String> mapParam) {
 		model.addAttribute("listCompany", companyLogic.findAll());
 		List<UserInfor> listUserInf = userInforLogic.getListUserInfor("", "", "");
@@ -62,11 +62,12 @@ public class ListUserController {
 			listUF.add(userInf);
 		}
 
-		session.setAttribute("sortBy", "asc");
-		session.setAttribute("listUserInfor", listUF);
 		int totalUser = listUserInf.size();
 		int limit = Common.getLimit();
 		int totalPage = Common.getTotalPage(totalUser, limit);
+
+		session.setAttribute("sortBy", "asc");
+		session.setAttribute("listUserInfor", listUF);
 		session.setAttribute("totalPage", totalPage);
 		session.setAttribute("listUF", listUserInf);
 		session.setAttribute("currentPage", 1);
@@ -87,18 +88,12 @@ public class ListUserController {
 	@RequestMapping(value = { "/listUserSearch" }, method = RequestMethod.GET)
 	public String listPage(Model model, @RequestParam(value = "fullNameForm") String fullnameForm,
 			@RequestParam(value = "insNumberForm") String insNumberForm,
-			@RequestParam(value = "placeRegForm") String placeRegForm, @RequestParam Map<String, String> map) {
+			@RequestParam(value = "placeRegForm") String placeRegForm) {
 
 		model.addAttribute("listCompany", companyLogic.findAll());
-		String companyIDSearch = map.get("companyForm");
-		session.setAttribute("companyIDSearch", companyIDSearch);
+		// String companyIDSearch = map.get("companyForm");
+		// session.setAttribute("companyIDSearch", companyIDSearch);
 		int currentPage = 1;
-		session.setAttribute("fullName", fullnameForm);
-		session.setAttribute("insNumber", insNumberForm);
-		session.setAttribute("placeReg", placeRegForm);
-		session.setAttribute("currentPage", currentPage);
-		session.setAttribute("endPoint", Common.endPoint);
-		session.setAttribute("sortBy", "asc");
 		List<UserInfor> listUserInf = userInforLogic.getListUserInfor(fullnameForm, insNumberForm, placeRegForm);
 		Collections.sort(listUserInf, new Comparator<UserInfor>() {
 			@Override
@@ -108,9 +103,7 @@ public class ListUserController {
 		});
 		int size = listUserInf.size();
 		int totalPage = Common.getTotalPage(size, Constant.LIMIT);
-		session.setAttribute("totalPage", totalPage);
-		session.setAttribute("sizePg", size);
-		session.setAttribute("listUF", listUserInf);
+
 		List<UserInfor> listUF = new ArrayList<UserInfor>();
 		for (int i = 0; i <= Constant.LIMIT - 1; i++) {
 			try {
@@ -120,6 +113,15 @@ public class ListUserController {
 				break;
 			}
 		}
+		session.setAttribute("totalPage", totalPage);
+		session.setAttribute("sizePg", size);
+		session.setAttribute("listUF", listUserInf);
+		session.setAttribute("fullName", fullnameForm);
+		session.setAttribute("insNumber", insNumberForm);
+		session.setAttribute("placeReg", placeRegForm);
+		session.setAttribute("currentPage", currentPage);
+		session.setAttribute("endPoint", Common.endPoint);
+		session.setAttribute("sortBy", "asc");
 		session.setAttribute("listUserInfor", listUF);
 		session.setAttribute("listpaging", Common.getListPaging(size, Constant.LIMIT, currentPage));
 		model.addAttribute("error", MessageProperties.getMSS("ERR04"));
@@ -136,8 +138,7 @@ public class ListUserController {
 	@RequestMapping(value = "/listUserSort", method = RequestMethod.GET)
 	public String sort(Model model, @RequestParam Map<String, String> map) {
 		model.addAttribute("listCompany", companyLogic.findAll());
-		session.setAttribute("currentPage", map.get("currentPage"));
-		session.setAttribute("currentPage", 1);
+
 		List<UserInfor> listUserInfor = (List<UserInfor>) session.getAttribute("listUF");
 		// String sortBy = map.get("sortBy");
 		String sortBy = (String) session.getAttribute("sortBy");
@@ -158,6 +159,7 @@ public class ListUserController {
 				}
 			});
 		}
+		
 		List<UserInfor> listUF = new ArrayList<UserInfor>();
 		for (int i = 0; i <= Constant.LIMIT - 1; i++) {
 			try {
@@ -170,6 +172,9 @@ public class ListUserController {
 		int currentPage = (int) session.getAttribute("currentPage");
 		int size = listUserInfor.size();
 		int totalPage = Common.getTotalPage(size, Constant.LIMIT);
+		
+		session.setAttribute("currentPage", map.get("currentPage"));
+		session.setAttribute("currentPage", 1);
 		session.setAttribute("totalPage", totalPage);
 		session.setAttribute("listUserInfor", listUF);
 		session.setAttribute("companyIDSearch", 1);
@@ -189,20 +194,13 @@ public class ListUserController {
 	public String getPaging(Model model, @RequestParam Map<String, String> map) {
 		model.addAttribute("listCompany", companyLogic.findAll());
 		List<UserInfor> listUserInfor = (List<UserInfor>) session.getAttribute("listUF");
-
 		List<UserInfor> listUF = new ArrayList<UserInfor>();
 		int totalUser = listUserInfor.size();
 		int limit = Common.getLimit();
 		int crrPage = Integer.parseInt(map.get("page"));
 		int totalPage = Common.getTotalPage(totalUser, limit);
-		session.setAttribute("totalPage", totalPage);
 		int offset = Common.getOffset(crrPage, limit);
-		session.setAttribute("offset", offset);
 		List<Integer> listPaging = Common.getListPaging(totalUser, limit, crrPage);
-		session.setAttribute("listpaging", listPaging);
-		session.setAttribute("endPoint", Common.endPoint);
-		session.setAttribute("currentPage", crrPage);
-
 		for (int i = offset; i <= offset + Constant.LIMIT - 1; i++) {
 			try {
 				UserInfor userInf = listUserInfor.get(i);
@@ -211,6 +209,12 @@ public class ListUserController {
 				break;
 			}
 		}
+		
+		session.setAttribute("offset", offset);
+		session.setAttribute("listpaging", listPaging);
+		session.setAttribute("endPoint", Common.endPoint);
+		session.setAttribute("currentPage", crrPage);
+		session.setAttribute("totalPage", totalPage);
 		session.setAttribute("listUserInfor", listUF);
 		return "MH02";
 	}

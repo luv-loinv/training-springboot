@@ -16,4 +16,8 @@ public class TblCompanyLogic {
 	public List<TblCompany> findAll() {
 		return companyDao.findAll();
 	}
+
+	public TblCompany findByCompanyName(String companyName) {
+		return companyDao.findByCompanyName(companyName);
+	}
 }
