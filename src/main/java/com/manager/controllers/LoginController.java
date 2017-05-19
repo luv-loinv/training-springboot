@@ -31,15 +31,18 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String checkLogin(@RequestParam("username") String username, @RequestParam("password") String password,
 			Model model) {
-
-		List<String> listErr = Validator.validLogin(username, password, userLogic);
-		if (listErr.size() == 0) {
-			session.setAttribute("loginname", username);
-			return "redirect:listUser";
-		} else {
-			model.addAttribute("logname", username);
-			model.addAttribute("listErr", listErr);
-			return "MH01";
+		try {
+			List<String> listErr = Validator.validLogin(username, password, userLogic);
+			if (listErr.size() == 0) {
+				session.setAttribute("loginname", username);
+				return "redirect:listUser";
+			} else {
+				model.addAttribute("logname", username);
+				model.addAttribute("listErr", listErr);
+				return "MH01";
+			}
+		} catch (Exception e) {
+			return "SystemError";
 		}
 
 	}

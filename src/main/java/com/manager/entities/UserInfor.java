@@ -12,12 +12,13 @@ public class UserInfor {
 	private char user_sex_division;
 	private Date birthdate;
 	private String companyName;
-	private String adress;
+	private String addressInput;
 	private String telephone;
 	private String birthdateInput;
 	private String startDateInput;
 	private String endDateInput;
 	private String email;
+	private int companyIDInput;
 
 	/**
 	 * @param i
@@ -47,27 +48,28 @@ public class UserInfor {
 	 * @param place_of_register
 	 * @param user_sex_division
 	 * @param companyName
-	 * @param adress
+	 * @param addressInput
 	 * @param telephone
 	 * @param birthdateInput
 	 * @param startDateInput
 	 * @param endDateInput
 	 */
 	public UserInfor(String user_full_name, String insurance_number, String place_of_register, char user_sex_division,
-			String companyName, String adress, String telephone, String birthdateInput, String startDateInput,
-			String endDateInput, String email) {
+			String companyName, String addressInput, String telephone, String birthdateInput, String startDateInput,
+			String endDateInput, String email, int companyIDInput) {
 		super();
 		this.user_full_name = user_full_name;
 		this.insurance_number = insurance_number;
 		this.place_of_register = place_of_register;
 		this.user_sex_division = user_sex_division;
 		this.companyName = companyName;
-		this.adress = adress;
+		this.addressInput = addressInput;
 		this.telephone = telephone;
 		this.birthdateInput = birthdateInput;
 		this.startDateInput = startDateInput;
 		this.endDateInput = endDateInput;
 		this.email = email;
+		this.companyIDInput = companyIDInput;
 	}
 
 	/**
@@ -193,16 +195,16 @@ public class UserInfor {
 	/**
 	 * @return the adress
 	 */
-	public String getAdress() {
-		return adress;
+	public String getAddressInput() {
+		return addressInput;
 	}
 
 	/**
-	 * @param adress
+	 * @param addressInput
 	 *            the adress to set
 	 */
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setAddressInput(String addressInput) {
+		this.addressInput = addressInput;
 	}
 
 	/**
@@ -293,6 +295,21 @@ public class UserInfor {
 	 */
 	public void setUserID(int userID) {
 		this.userID = userID;
+	}
+
+	/**
+	 * @return the companyIDInput
+	 */
+	public int getCompanyIDInput() {
+		return companyIDInput;
+	}
+
+	/**
+	 * @param companyIDInput
+	 *            the companyIDInput to set
+	 */
+	public void setCompanyIDInput(int companyIDInput) {
+		this.companyIDInput = companyIDInput;
 	}
 
 }

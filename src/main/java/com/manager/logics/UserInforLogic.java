@@ -16,6 +16,7 @@ import com.manager.entities.TblCompany;
 import com.manager.entities.TblInsurance;
 import com.manager.entities.TblUser;
 import com.manager.entities.UserInfor;
+import com.manager.utils.Common;
 
 @Service
 public class UserInforLogic {
@@ -207,5 +208,18 @@ public class UserInforLogic {
 		user.setInsurance_internal_id(
 				insuranceDao.findByInsuranceNumber(insurance.getInsurance_number()).getInsurance_internal_id());
 		userDao.save(user);
+	}
+
+	public UserInfor findUserByID(int userID) {
+		TblUser user = userDao.findOne(userID);
+		TblCompany company = companyDao.findOne(user.getCompany_internal_id());
+		TblInsurance insurance = insuranceDao.findOne(user.getInsurance_internal_id());
+		String birthdate = Common.convertDateToString(user.getBirthdate());
+		String startDate = Common.convertDateToString(insurance.getInsurance_start_date());
+		String endDate = Common.convertDateToString(insurance.getInsurance_end_date());
+		return new UserInfor(user.getUser_full_name(), insurance.getInsurance_number(),
+				insurance.getPlace_of_register(), user.getUser_sex_division(), company.getCompany_name(), "", "",
+				birthdate, startDate, endDate, "", userID);
+
 	}
 }

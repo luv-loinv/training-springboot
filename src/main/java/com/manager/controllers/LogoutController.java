@@ -22,7 +22,11 @@ public class LogoutController {
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout() {
-		session.invalidate();
-		return "MH01";
+		try {
+			session.invalidate();
+			return "MH01";
+		} catch (Exception e) {
+			return "SystemError";
+		}
 	}
 }

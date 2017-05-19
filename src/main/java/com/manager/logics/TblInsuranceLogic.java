@@ -30,11 +30,13 @@ public class TblInsuranceLogic {
 	}
 
 	public boolean checkExistIns(String insuranceNumber) {
-		try {
-			insurenceDao.findByInsuranceNumber(insuranceNumber);
-			return true;
-		} catch (NullPointerException e) {
+		System.out.println(insuranceNumber);
+		System.out.println(insurenceDao.toString());
+		int count = insurenceDao.countByInsuranceNumber(insuranceNumber);
+		if (count > 0) {
 			return false;
+		} else {
+			return true;
 		}
 	}
 }

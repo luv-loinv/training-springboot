@@ -17,7 +17,12 @@ public class TblCompanyLogic {
 		return companyDao.findAll();
 	}
 
-	public TblCompany findByCompanyName(String companyName) {
-		return companyDao.findByCompanyName(companyName);
+	public boolean findByCompanyName(String companyName) {
+		try {
+			companyDao.findByCompanyName(companyName);
+			return false;
+		} catch (NullPointerException e) {
+			return true;
+		}
 	}
 }

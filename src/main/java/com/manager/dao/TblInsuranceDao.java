@@ -11,7 +11,7 @@ import com.manager.entities.TblInsurance;
 @Transactional
 public interface TblInsuranceDao extends JpaRepository<TblInsurance, Integer> {
 
-	TblInsurance findByInsuranceNumber(String insurance);
+	TblInsurance findByInsuranceNumber(String insuranceNumber);
 
 	List<TblInsurance> findByInsuranceNumberContaining(String insurancenumber);
 
@@ -19,4 +19,5 @@ public interface TblInsuranceDao extends JpaRepository<TblInsurance, Integer> {
 
 	List<TblInsurance> findByInsuranceNumberContainingAndPlaceOfRegisterContaining(String insnumber, String place);
 
+	int countByInsuranceNumber(String insurance);
 }

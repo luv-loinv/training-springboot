@@ -3,26 +3,26 @@ package com.manager.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import com.manager.entities.TblUser;
 import com.manager.entities.UserInfor;
 import com.manager.logics.TblUserLogic;
 
+@Service
+@Component
 public class Validator {
-	// @Autowired(required = true)
-	// private static TblUserLogic userLogic;
-
 	public static List<String> validLogin(String username, String password, TblUserLogic userLogic) {
 		List<String> listErr = new ArrayList<String>();
 		if ("".equals(username)) {
 			listErr.add(MessageProperties.getMSS("ERR01"));
-			System.out.println(MessageProperties.getMSS("ERR01"));
 		}
 
 		if ("".equals(password)) {
 			listErr.add(MessageProperties.getMSS("ERR02"));
 		}
-		List<TblUser> listUser = userLogic.findByUsernameAndPassword(username, password);
-		System.out.println(Common.encryptMD5(password));
+		List<TblUser> listUser = userLogic.findByUsernameAndPassword(username, Common.encryptMD5(password));
 		if (!"".equals(username) && !"".equals(password) && listUser.size() == 0) {
 			listErr.add(MessageProperties.getMSS("ERR03"));
 		}
@@ -35,11 +35,13 @@ public class Validator {
 		// validate ma so the bao hiem
 		if (!Common.checkInput(userInfor.getInsurance_number())) {
 			errorList.add(MessageProperties.getMSS("ERR05"));
-		} else if (Common.checkExistIns(userInfor.getInsurance_number())) {
-			errorList.add(MessageProperties.getMSS("ERR12"));
 		} else if (!Common.checkMaxLength(userInfor.getInsurance_number(), 10)) {
 			errorList.add(MessageProperties.getMSS("ERR22"));
-		}
+		} 
+		
+//		else if (!Common.checkExistIns(userInfor.getInsurance_number())) {
+//			errorList.add(MessageProperties.getMSS("ERR12"));
+//		}
 		// validate ho va ten
 		if (!Common.checkInput(userInfor.getUser_full_name())) {
 			errorList.add(MessageProperties.getMSS("ERR06"));
@@ -47,26 +49,28 @@ public class Validator {
 			errorList.add(MessageProperties.getMSS("ERR17"));
 		}
 		// validate ngay sinh
-		if (!Common.checkFormatDate(userInfor.getBirthdateInput())) {
+		if (!userInfor.getBirthdateInput().equals("") && !Common.checkFormatDate(userInfor.getBirthdateInput())) {
 			errorList.add(MessageProperties.getMSS("ERR13"));
 		}
 
-		if (!company.equals("com1")) {
+		if (company.equals("")) {
+			errorList.add(MessageProperties.getMSS("ERR25"));
+		} else if (!company.equals("com1")) {
 			// validate ten cong ty
 			if (!Common.checkInput(userInfor.getCompanyName())) {
 				errorList.add(MessageProperties.getMSS("ERR07"));
 			} else if (!Common.checkMaxLength(userInfor.getCompanyName(), 50)) {
 				errorList.add(MessageProperties.getMSS("ERR18"));
-			}
-
+			} 
+			
 			// validate dia chi
-			if (!Common.checkInput(userInfor.getAdress())) {
+			if (!Common.checkInput(userInfor.getAddressInput())) {
 				errorList.add(MessageProperties.getMSS("ERR08"));
-			} else if (!Common.checkMaxLength(userInfor.getAdress(), 100)) {
+			} else if (!Common.checkMaxLength(userInfor.getAddressInput(), 100)) {
 				errorList.add(MessageProperties.getMSS("ERR19"));
 			}
 			// validate email
-			if (!Common.checkMailFormat(userInfor.getEmail())) {
+			if (!userInfor.getEmail().equals("") && !Common.checkMailFormat(userInfor.getEmail())) {
 				errorList.add(MessageProperties.getMSS("ERR16"));
 			} else if (!Common.checkMaxLength(userInfor.getEmail(), 50)) {
 				errorList.add(MessageProperties.getMSS("ERR20"));
@@ -85,14 +89,14 @@ public class Validator {
 			errorList.add(MessageProperties.getMSS("ERR23"));
 		}
 		// validate ngay bat dau
-		if (!Common.checkInput(userInfor.getInsurance_number())) {
+		if (!Common.checkInput(userInfor.getStartDateInput())) {
 			errorList.add(MessageProperties.getMSS("ERR10"));
 		} else if (!Common.checkFormatDate(userInfor.getStartDateInput())) {
 			errorList.add(MessageProperties.getMSS("ERR14"));
 		}
 
 		// validate ngay ket thuc
-		if (!Common.checkInput(userInfor.getInsurance_number())) {
+		if (!Common.checkInput(userInfor.getEndDateInput())) {
 			errorList.add(MessageProperties.getMSS("ERR11"));
 		} else if (!Common.checkFormatDate(userInfor.getEndDateInput())) {
 			errorList.add(MessageProperties.getMSS("ERR15"));
