@@ -47,7 +47,7 @@ public class TblCompany implements Serializable{
 	private String telephone;
 	
 	@OneToMany(mappedBy = "tblCompany", orphanRemoval= true,
-			cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+			cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<TblUser> tblUsers;
 
 	/**

@@ -9,7 +9,7 @@ import com.spring.company.entity.TblCompany;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<TblCompany,Long> {
-   public static final String FIND_COMPANYS = "SELECT companyInternalId, companyName FROM TblCompany";
+   public static final String FIND_COMPANYS = "SELECT company_internal_id, company_name FROM tbl_company";
    
    @Query(value = FIND_COMPANYS, nativeQuery = true)
    public List<Object[]> findCompanys();

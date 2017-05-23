@@ -25,7 +25,7 @@ import com.spring.user.entity.TblUser;
 @Table(name="tbl_insurance")
 public class TblInsurance implements Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="insurance_internal_id")
 	private Long insuranceInternalId;
 	
@@ -69,14 +69,14 @@ public class TblInsurance implements Serializable{
 	/**
 	 * @return the insuranceInternalId
 	 */
-	public long getInsuranceInternalId() {
+	public Long getInsuranceInternalId() {
 		return insuranceInternalId;
 	}
 
 	/**
 	 * @param insuranceInternalId the insuranceInternalId to set
 	 */
-	public void setInsuranceInternalId(long insuranceInternalId) {
+	public void setInsuranceInternalId(Long insuranceInternalId) {
 		this.insuranceInternalId = insuranceInternalId;
 	}
 
