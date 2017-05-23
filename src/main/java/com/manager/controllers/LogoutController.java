@@ -5,6 +5,8 @@ package com.manager.controllers;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.manager.utils.Constant;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,9 @@ public class LogoutController {
 	public String logout() {
 		try {
 			session.invalidate();
-			return "MH01";
+			return Constant.MH01;
 		} catch (Exception e) {
-			return "SystemError";
+			return Constant.SYSTEM_ERROR;
 		}
 	}
 }

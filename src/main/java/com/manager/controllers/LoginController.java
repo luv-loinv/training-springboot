@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.manager.logics.TblUserLogic;
+import com.manager.utils.Constant;
 import com.manager.utils.Validator;
 
 @Controller("/login")
 public class LoginController {
-
 	@Autowired
 	private HttpSession session;
 
@@ -28,22 +28,20 @@ public class LoginController {
 		return "MH01";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String checkLogin(@RequestParam("username") String username, @RequestParam("password") String password,
+	@RequestMapping(value = { "/login", "/" }, method = RequestMethod.POST)
+	public String loginPage(@RequestParam("username") String username, @RequestParam("password") String password,
 			Model model) {
 		try {
-			List<String> listErr = Validator.validLogin(username, password, userLogic);
-			if (listErr.size() == 0) {
-				session.setAttribute("loginname", username);
+			List<String> errorList = Validator.validLogin(username, password, userLogic);
+			if (errorList.size() == 0) {
+				session.setAttribute("loginName", username);
 				return "redirect:listUser";
-			} else {
-				model.addAttribute("logname", username);
-				model.addAttribute("listErr", listErr);
-				return "MH01";
 			}
+			model.addAttribute("loginName", username);
+			model.addAttribute("errorList", errorList);
+			return Constant.MH01;
 		} catch (Exception e) {
-			return "SystemError";
+			return Constant.SYSTEM_ERROR;
 		}
-
 	}
 }

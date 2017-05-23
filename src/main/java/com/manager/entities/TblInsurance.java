@@ -1,135 +1,156 @@
+/**
+ * Copyright(C) 2016 Luvina Software Company *
+ * TblInsurance.java, 30-08-2016, nguyenvietloi
+ */
 package com.manager.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
+/**
+ * Entity mapping bảng tbl_insurance trong db
+ *
+ * @author nguyenvietloi
+ */
+
+@SuppressWarnings("serial")
 @Entity
-@Table(name = "tbl_insurance")
-public class TblInsurance {
+@Table(name="tbl_insurance")
+public class TblInsurance implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@NotNull
-	@Column(name = "insurance_internal_id")
-	private int insurance_internal_id;
-
-	@NotNull
-	@Column(name = "insurance_number")
+	@Column(name="insurance_internal_id")
+	private long insuranceInternalId;
+	
+	@Column(name="insurance_number", nullable = false)
 	private String insuranceNumber;
-
-	@NotNull
-	@Column(name = "insurance_start_date")
-	private Date insurance_start_date;
-
-	@NotNull
-	@Column(name = "insurance_end_date")
-	private Date insurance_end_date;
-
-	@NotNull
-	@Column(name = "place_of_register")
+	
+	@Column(name="insurance_start_date", nullable = false)
+	private Date insuranceStartDate;
+	
+	@Column(name="insurance_end_date", nullable = false)
+	private Date insuranceEndDate;
+	
+	@Column(name="place_of_register", nullable = false)
 	private String placeOfRegister;
+	
+	@OneToOne(mappedBy="tblInsurance", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
+	private TblUser tblUser;
 
 	/**
-	 * 
+	 * Default Constructor
 	 */
 	public TblInsurance() {
-		super();
 	}
 
 	/**
-	 * @param insuranceNumber
-	 * @param insurance_start_date
-	 * @param insurance_end_date
-	 * @param placeOfRegister
+	 * Constructor chứa tham số
+	 * 
+	 * @param insuranceNumber Mã số thẻ bảo hiểm
+	 * @param insuranceStartDate Kỳ hạn sử dụng_bắt đầu
+	 * @param insuranceEndDate Kỳ hạn sử dụng_kết thúc
+	 * @param placeOfRegister Nơi đăng ký KCB
 	 */
-	public TblInsurance(String insuranceNumber, Date insurance_start_date, Date insurance_end_date,
+	public TblInsurance(String insuranceNumber, Date insuranceStartDate, Date insuranceEndDate,
 			String placeOfRegister) {
-		super();
 		this.insuranceNumber = insuranceNumber;
-		this.insurance_start_date = insurance_start_date;
-		this.insurance_end_date = insurance_end_date;
+		this.insuranceStartDate = insuranceStartDate;
+		this.insuranceEndDate = insuranceEndDate;
 		this.placeOfRegister = placeOfRegister;
 	}
 
 	/**
-	 * @return the insurance_internal_id
+	 * @return the insuranceInternalId
 	 */
-	public int getInsurance_internal_id() {
-		return insurance_internal_id;
+	public long getInsuranceInternalId() {
+		return insuranceInternalId;
 	}
 
 	/**
-	 * @param insurance_internal_id
-	 *            the insurance_internal_id to set
+	 * @param insuranceInternalId the insuranceInternalId to set
 	 */
-	public void setInsurance_internal_id(int insurance_internal_id) {
-		this.insurance_internal_id = insurance_internal_id;
+	public void setInsuranceInternalId(long insuranceInternalId) {
+		this.insuranceInternalId = insuranceInternalId;
 	}
 
 	/**
-	 * @return the insurance_number
+	 * @return the insuranceNumber
 	 */
-	public String getInsurance_number() {
+	public String getInsuranceNumber() {
 		return insuranceNumber;
 	}
 
 	/**
-	 * @param insurance_number
-	 *            the insurance_number to set
+	 * @param insuranceNumber the insuranceNumber to set
 	 */
-	public void setInsurance_number(String insurance_number) {
-		this.insuranceNumber = insurance_number;
+	public void setInsuranceNumber(String insuranceNumber) {
+		this.insuranceNumber = insuranceNumber;
 	}
 
 	/**
-	 * @return the insurance_start_date
+	 * @return the insuranceStartDate
 	 */
-	public Date getInsurance_start_date() {
-		return insurance_start_date;
+	public Date getInsuranceStartDate() {
+		return insuranceStartDate;
 	}
 
 	/**
-	 * @param insurance_start_date
-	 *            the insurance_start_date to set
+	 * @param insuranceStartDate the insuranceStartDate to set
 	 */
-	public void setInsurance_start_date(Date insurance_start_date) {
-		this.insurance_start_date = insurance_start_date;
+	public void setInsuranceStartDate(Date insuranceStartDate) {
+		this.insuranceStartDate = insuranceStartDate;
 	}
 
 	/**
-	 * @return the insurance_end_date
+	 * @return the insuranceEndDate
 	 */
-	public Date getInsurance_end_date() {
-		return insurance_end_date;
+	public Date getInsuranceEndDate() {
+		return insuranceEndDate;
 	}
 
 	/**
-	 * @param insurance_end_date
-	 *            the insurance_end_date to set
+	 * @param insuranceEndDate the insuranceEndDate to set
 	 */
-	public void setInsurance_end_date(Date insurance_end_date) {
-		this.insurance_end_date = insurance_end_date;
+	public void setInsuranceEndDate(Date insuranceEndDate) {
+		this.insuranceEndDate = insuranceEndDate;
 	}
 
 	/**
-	 * @return the place_of_register
+	 * @return the placeOfRegister
 	 */
-	public String getPlace_of_register() {
+	public String getPlaceOfRegister() {
 		return placeOfRegister;
 	}
 
 	/**
-	 * @param place_of_register
-	 *            the place_of_register to set
+	 * @param placeOfRegister the placeOfRegister to set
 	 */
-	public void setPlace_of_register(String place_of_register) {
-		this.placeOfRegister = place_of_register;
+	public void setPlaceOfRegister(String placeOfRegister) {
+		this.placeOfRegister = placeOfRegister;
 	}
 
+	/**
+	 * @return the tblUser
+	 */
+	public TblUser getTblUser() {
+		return tblUser;
+	}
+
+	/**
+	 * @param tblUser the tblUser to set
+	 */
+	public void setTblUser(TblUser tblUser) {
+		this.tblUser = tblUser;
+	}
+		
 }

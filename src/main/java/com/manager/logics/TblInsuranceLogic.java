@@ -1,7 +1,5 @@
 package com.manager.logics;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,30 +11,15 @@ public class TblInsuranceLogic {
 	@Autowired
 	private TblInsuranceDao insurenceDao;
 
-	public List<TblInsurance> findAll() {
-		return insurenceDao.findAll();
-	}
-
-	public List<TblInsurance> findByInsuranceNumber(String insurancenumber) {
-		return insurenceDao.findByInsuranceNumberContaining(insurancenumber);
-	}
-
-	public List<TblInsurance> findByPlaceOfRegisterLike(String place) {
-		return insurenceDao.findByPlaceOfRegisterContaining(place);
-	}
-
-	public List<TblInsurance> findByInsuranceNumberAndPlaceOfRegisterLike(String insnumber, String place) {
-		return insurenceDao.findByInsuranceNumberContainingAndPlaceOfRegisterContaining(insnumber, place);
-	}
-
-	public boolean checkExistIns(String insuranceNumber) {
-		System.out.println(insuranceNumber);
-		System.out.println(insurenceDao.toString());
-		int count = insurenceDao.countByInsuranceNumber(insuranceNumber);
-		if (count > 0) {
-			return false;
-		} else {
+	public boolean checkExistIns(String insNumber) {
+		int count = insurenceDao.countByInsuranceNumber(insNumber);
+		if (count == 0) {
 			return true;
 		}
+		return false;
+	}
+
+	public void saveInsurance(TblInsurance insurance) {
+		insurenceDao.save(insurance);
 	}
 }

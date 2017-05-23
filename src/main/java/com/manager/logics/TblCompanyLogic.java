@@ -17,12 +17,19 @@ public class TblCompanyLogic {
 		return companyDao.findAll();
 	}
 
-	public boolean findByCompanyName(String companyName) {
-		try {
-			companyDao.findByCompanyName(companyName);
-			return false;
-		} catch (NullPointerException e) {
+	public boolean checkExistComp(String companyName) {
+		int count = companyDao.countByCompanyName(companyName);
+		if (count == 0) {
 			return true;
 		}
+		return false;
+	}
+
+	public void saveCompany(TblCompany company) {
+		companyDao.save(company);
+	}
+
+	public TblCompany findByCompanyID(int compID) {
+		return companyDao.findOne(compID);
 	}
 }

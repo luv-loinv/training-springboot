@@ -1,5 +1,10 @@
+/**
+ * Copyright(C) 2016 Luvina Software Company
+ * TblUser.java, Aug 29, 2016, nguyenvietloi
+ */
 package com.manager.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -7,128 +12,129 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
+ * Entity mapping bảng tbl_user trong db
  * 
- * @author komkom
- *
+ * @author nguyenvietloi
  */
+
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "tbl_user")
-public class TblUser {
-
+public class TblUser implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@NotNull
 	@Column(name = "user_internal_id")
-	private int user_internal_id;
+	private int userInternalId;
 
-	@NotNull
-	@Column(name = "company_internal_id")
-	private int company_internal_id;
+	@Column(name = "username", nullable = false)
+	private String userName;
 
-	@NotNull
-	@Column(name = "insurance_internal_id")
-	private int insurance_internal_id;
-
-	@NotNull
-	@Column(name = "username")
-	private String username;
-
-	@NotNull
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	private String password;
 
-	@NotNull
-	@Column(name = "user_full_name")
+	@Column(name = "user_full_name", nullable = false)
 	private String userFullName;
 
-	@NotNull
-	@Column(name = "user_sex_division")
-	private char user_sex_division;
+	@Column(name = "user_sex_division", nullable = false)
+	private String userSexDivision;
 
 	@Column(name = "birthdate")
 	private Date birthdate;
 
+	@ManyToOne()
+	@JoinColumn(name = "company_internal_id")
+	private TblCompany tblCompany;
+
+	@OneToOne()
+	@JoinColumn(name = "insurance_internal_id")
+	private TblInsurance tblInsurance;
+
 	/**
-	 * 
+	 * Default Constructor
 	 */
 	public TblUser() {
-		super();
 	}
 
 	/**
+	 * Constructor chứa tham số *
+	 * 
+	 * @param userName,
+	 *            Tên đăng nhập
+	 * @param password,
+	 *            Mật khẩu đăng nhập
+	 * @param userFullName,
+	 *            Tên người sử dụng
+	 * @param userSexDivision,
+	 *            Giới tính
+	 * @param birthdate,
+	 *            Ngày sinh
+	 * @param tblCompany
+	 *            đối tượng TblCompany
+	 * @param tblInsurance
+	 *            đối tượng TblInsurance
+	 */
+	public TblUser(int userInternalId, String userName, String password, String userFullName, String userSexDivision,
+			Date birthdate, TblCompany tblCompany, TblInsurance tblInsurance) {
+		this.userInternalId = userInternalId;
+		this.userName = userName;
+		this.password = password;
+		this.userFullName = userFullName;
+		this.userSexDivision = userSexDivision;
+		this.birthdate = birthdate;
+		this.tblCompany = tblCompany;
+		this.tblInsurance = tblInsurance;
+	}
+
+	/**
+	 * @param userName
+	 * @param password
 	 * @param userFullName
-	 * @param user_sex_division
+	 * @param userSexDivision
 	 * @param birthdate
 	 */
-	public TblUser(String userFullName, char user_sex_division, Date birthdate) {
+	public TblUser(String userName, String password, String userFullName, String userSexDivision, Date birthdate) {
 		super();
+		this.userName = userName;
+		this.password = password;
 		this.userFullName = userFullName;
-		this.user_sex_division = user_sex_division;
+		this.userSexDivision = userSexDivision;
 		this.birthdate = birthdate;
 	}
 
 	/**
-	 * @return the user_internal_id
+	 * @return the userInternalId
 	 */
-	public int getUser_internal_id() {
-		return user_internal_id;
+	public int getUserInternalId() {
+		return userInternalId;
 	}
 
 	/**
-	 * @param user_internal_id
-	 *            the user_internal_id to set
+	 * @param userInternalId
+	 *            the userInternalId to set
 	 */
-	public void setUser_internal_id(int user_internal_id) {
-		this.user_internal_id = user_internal_id;
+	public void setUserInternalId(int userInternalId) {
+		this.userInternalId = userInternalId;
 	}
 
 	/**
-	 * @return the company_internal_id
+	 * @return the userName
 	 */
-	public int getCompany_internal_id() {
-		return company_internal_id;
+	public String getUserName() {
+		return userName;
 	}
 
 	/**
-	 * @param company_internal_id
-	 *            the company_internal_id to set
+	 * @param userName
+	 *            the userName to set
 	 */
-	public void setCompany_internal_id(int company_internal_id) {
-		this.company_internal_id = company_internal_id;
-	}
-
-	/**
-	 * @return the insurance_internal_id
-	 */
-	public int getInsurance_internal_id() {
-		return insurance_internal_id;
-	}
-
-	/**
-	 * @param insurance_internal_id
-	 *            the insurance_internal_id to set
-	 */
-	public void setInsurance_internal_id(int insurance_internal_id) {
-		this.insurance_internal_id = insurance_internal_id;
-	}
-
-	/**
-	 * @return the username
-	 */
-	public String getUsername() {
-		return username;
-	}
-
-	/**
-	 * @param username
-	 *            the username to set
-	 */
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	/**
@@ -147,33 +153,33 @@ public class TblUser {
 	}
 
 	/**
-	 * @return the user_full_name
+	 * @return the userFullName
 	 */
-	public String getUser_full_name() {
+	public String getUserFullName() {
 		return userFullName;
 	}
 
 	/**
-	 * @param user_full_name
-	 *            the user_full_name to set
+	 * @param userFullName
+	 *            the userFullName to set
 	 */
-	public void setUser_full_name(String user_full_name) {
-		this.userFullName = user_full_name;
+	public void setUserFullName(String userFullName) {
+		this.userFullName = userFullName;
 	}
 
 	/**
-	 * @return the user_sex_division
+	 * @return the userSexDivision
 	 */
-	public char getUser_sex_division() {
-		return user_sex_division;
+	public String getUserSexDivision() {
+		return userSexDivision;
 	}
 
 	/**
-	 * @param user_sex_division
-	 *            the user_sex_division to set
+	 * @param userSexDivision
+	 *            the userSexDivision to set
 	 */
-	public void setUser_sex_division(char user_sex_division) {
-		this.user_sex_division = user_sex_division;
+	public void setUserSexDivision(String userSexDivision) {
+		this.userSexDivision = userSexDivision;
 	}
 
 	/**
@@ -189,6 +195,36 @@ public class TblUser {
 	 */
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
+	}
+
+	/**
+	 * @return the tblCompany
+	 */
+	public TblCompany getTblCompany() {
+		return tblCompany;
+	}
+
+	/**
+	 * @param tblCompany
+	 *            the tblCompany to set
+	 */
+	public void setTblCompany(TblCompany tblCompany) {
+		this.tblCompany = tblCompany;
+	}
+
+	/**
+	 * @return the tblInsurance
+	 */
+	public TblInsurance getTblInsurance() {
+		return tblInsurance;
+	}
+
+	/**
+	 * @param tblInsurance
+	 *            the tblInsurance to set
+	 */
+	public void setTblInsurance(TblInsurance tblInsurance) {
+		this.tblInsurance = tblInsurance;
 	}
 
 }

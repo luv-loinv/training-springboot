@@ -12,32 +12,26 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.stereotype.Service;
-
-import com.manager.dao.TblInsuranceDao;
-import com.manager.logics.TblCompanyLogic;
-import com.manager.logics.TblInsuranceLogic;
-
-@Service
+/**
+ * 
+ * @author nguyenthanhtung
+ *
+ */
 public class Common {
-
-	@Autowired
-	static TblInsuranceLogic insLogic;
-
-	@Autowired
-	static TblCompanyLogic compLogic;
-
-	@Autowired
-	static TblInsuranceDao insurenceDao;
-
 	public static int startPage;
 	public static int endPage;
 	public static int currentRange;
 	public static int endPoint;
 	public static int startPoint;
 
+	/**
+	 * Phương thức tính chuỗi paging
+	 * 
+	 * @param totalUser
+	 * @param limit
+	 * @param currentPage
+	 * @return
+	 */
 	public static List<Integer> getListPaging(int totalUser, int limit, int currentPage) {
 		List<Integer> listPaging = new ArrayList<Integer>();
 		int totalPage = getTotalPage(totalUser, limit);
@@ -58,15 +52,34 @@ public class Common {
 		return listPaging;
 	}
 
+	/**
+	 * Phương tính vị trí bắt đầu lấy bản ghi
+	 * 
+	 * @param currentPage
+	 * @param limit
+	 * @return
+	 */
 	public static int getOffset(int currentPage, int limit) {
 		return (currentPage - 1) * limit;
 
 	}
 
+	/**
+	 * Phương thức lấy số bản ghi hiển thị 1 trang
+	 * 
+	 * @return
+	 */
 	public static int getLimit() {
 		return Constant.LIMIT;
 	}
 
+	/**
+	 * Phương thức tính tổng số trang
+	 * 
+	 * @param totalUser
+	 * @param limit
+	 * @return
+	 */
 	public static int getTotalPage(int totalUser, int limit) {
 		if (totalUser % limit == 0) {
 			return totalUser / limit;
@@ -75,48 +88,55 @@ public class Common {
 		}
 	}
 
+	/**
+	 * Phương thức tính tổng số chuỗi
+	 * 
+	 * @param totalPage
+	 * @param range
+	 * @return
+	 */
 	public static int totalChuoi(int totalPage, int range) {
 		return (int) Math.ceil((float) totalPage / range);
 	}
 
+	/**
+	 * Phương thức tính chuỗi hiện tại
+	 * 
+	 * @param currentPage
+	 * @param range
+	 * @return
+	 */
 	public static int getCurrentRange(int currentPage, int range) {
 		return (int) Math.ceil((float) currentPage / range);
 	}
 
+	/**
+	 * Phương thức tính điểm cuối cùng của chuỗi
+	 * 
+	 * @param chuoiHT
+	 * @param range
+	 * @return
+	 */
 	public static int getEndPoint(int chuoiHT, int range) {
 		return chuoiHT * range;
 	}
 
+	/**
+	 * Phương thức tính điểm bắt đầu của chuỗi
+	 * 
+	 * @param chuoiHT
+	 * @param range
+	 * @return
+	 */
 	public static int getStartPoint(int chuoiHT, int range) {
 		return (chuoiHT - 1) * range + 1;
 	}
 
 	/**
-	 * Chuyển chuỗi ngày tháng thành dạng Date theo định dạng dd/MM/yyy
+	 * Phương thức chuyển Date thành 1 chuỗi String
 	 * 
 	 * @param date
-	 *            chuỗi ngày tháng
-	 * @return null nếu chuỗi nhập vào không đúng định dạng hoặc ngày không tồn
-	 *         tại Date nếu parse thành công
-	 */
-	public static Date parseStringToDate(String date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date dt = null;
-		try {
-			sdf.setLenient(false);
-			dt = sdf.parse(date);
-		} catch (Exception e) {
-			System.out.println("Không parse được " + date + " sang date");
-		}
-
-		return dt;
-	}
-
-	/**
-	 * Chuyển 1 đối tượng Date thành 1 chuỗi theo định dạng dd/MM/yyyy
 	 * 
-	 * @param date
-	 *            đối tượng date
 	 * @return chuỗi ngày tháng
 	 */
 	public static String convertDateToString(Date date) {
@@ -125,27 +145,11 @@ public class Common {
 	}
 
 	/**
-	 * tạo key ngẫu nhiên
+	 * Phương thức mã hóa MD5
 	 * 
-	 * @return mili giây hiện tại tính từ 1970
+	 * @param input
+	 * @return
 	 */
-	public static String getRandomKey() {
-		return new Date().getTime() + "";
-	}
-
-	/**
-	 * Hàm chuyển ký tự tiếng việt có dấu về không dấu
-	 * 
-	 * @param str
-	 *            là chuỗi ký tự
-	 * @return chuỗi ký tự không dấu
-	 */
-	public static String unAccent(String str) {
-		String temp = Normalizer.normalize(str, Normalizer.Form.NFD);
-		Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-		return pattern.matcher(temp).replaceAll("").replaceAll("Đ", "D").replaceAll("đ", "d");
-	}
-
 	public static String encryptMD5(String input) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
@@ -161,6 +165,12 @@ public class Common {
 		}
 	}
 
+	/**
+	 * Phương thức kiểm tra chuỗi có rỗng không
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public static boolean checkInput(String text) {
 		if ("".equals(text) || text == null) {
 			return false;
@@ -168,16 +178,12 @@ public class Common {
 		return true;
 	}
 
-	public static boolean checkExistIns(String insNumber) {
-		int count = insurenceDao.countByInsuranceNumber(insNumber);
-		if (count > 0) {
-			return false;
-		} else {
-			return true;
-		}
-		// return insLogic.checkExistIns(insNumber);
-	}
-
+	/**
+	 * Phương thức kiểm tra định dạng ngày tháng của chuỗi nhập vào
+	 * 
+	 * @param dateInput
+	 * @return
+	 */
 	public static boolean checkFormatDate(String dateInput) {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yyyy");
 		try {
@@ -189,6 +195,12 @@ public class Common {
 
 	}
 
+	/**
+	 * Phương thức kiểm tra định dạng email
+	 * 
+	 * @param email
+	 * @return
+	 */
 	public static boolean checkMailFormat(String email) {
 		try {
 			String regexEmail = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -199,11 +211,25 @@ public class Common {
 		}
 	}
 
+	/**
+	 * Phương thức chuyển từ chuỗi String sang Date
+	 * 
+	 * @param date
+	 * @return
+	 * @throws ParseException
+	 */
 	public static Date convertToDate(String date) throws ParseException {
 		DateFormat simple = new SimpleDateFormat("dd/MM/yyyy");
 		return simple.parse(date);
 	}
 
+	/**
+	 * Phương thức kiểm tra độ dài max của chuỗi
+	 * 
+	 * @param text
+	 * @param maxLength
+	 * @return
+	 */
 	public static boolean checkMaxLength(String text, int maxLength) {
 		if (text.length() > maxLength) {
 			return false;
@@ -211,19 +237,24 @@ public class Common {
 		return true;
 	}
 
-	public static boolean checkExistCompany(String companyName) {
-		return compLogic.findByCompanyName(companyName);
-
-	}
-
-	// loai bo dau tieng Viet
+	/**
+	 * Phương thức loại bỏ dấu tiếng việt
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public static String removeAccent(String text) {
 		String temp = Normalizer.normalize(text, Normalizer.Form.NFD);
 		Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
 		return pattern.matcher(temp).replaceAll("").replaceAll("Đ", "D").replaceAll("đ", "d");
 	}
 
-	// loai bo dau cach
+	/**
+	 * Phương thức loại bỏ dấu cách
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public static String removeSpace(String text) {
 		String sp = " ";
 		String sp2 = "  ";
@@ -233,8 +264,13 @@ public class Common {
 		return text;
 	}
 
-	// kiem tra ky tu la tin
-	public static boolean checkNameFormat(String text) {
+	/**
+	 * Phương thức kiểm tra định dạng ký tự có phải chữ latin không
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public static boolean checkLatin(String text) {
 		try {
 			String regexName = "^[_A-Za-z]$";
 			boolean check = text.matches(regexName);
@@ -244,20 +280,30 @@ public class Common {
 		}
 	}
 
-	// format ky tu la tin
+	/**
+	 * Phương thức format chỉ lấy các ký tự latin
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public static String formatLatin(String text) {
 		int length = text.length();
 		String outString = "";
 		for (int i = 0; i < length; i++) {
 			char tmp = text.charAt(i);
-			if (checkNameFormat(tmp + "") || " ".equals("" + tmp)) {
+			if (checkLatin(tmp + "") || " ".equals("" + tmp)) {
 				outString += tmp;
 			}
 		}
 		return outString;
 	}
 
-	// viet hoa chu cai dau tu
+	/**
+	 * Phương thức viết hoa chữ cái đầu mỗi từ
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public static String toUpcaseWord(String text) {
 		String arrayStr[] = text.split(" ");
 		StringBuffer result = new StringBuffer();
@@ -271,6 +317,21 @@ public class Common {
 		return result.toString();
 	}
 
+	/**
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public static String formatText(String text) {
+		return toUpcaseWord(formatLatin(removeAccent(removeSpace(text))));
+	}
+
+	/**
+	 * Phương thức loại escape các ký tự sql
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public static String escapeSQLInjection(String text) {
 		if (text.contains("%")) {
 			text = text.replace("%", "\\%");
@@ -283,24 +344,6 @@ public class Common {
 		if (text.contains("_")) {
 			text = text.replace("_", "\\_");
 		}
-
-//		StringBuffer sb = new StringBuffer();
-//		for (int i = 0; i < text.length(); i++) {
-//			char c = text.charAt(i);
-//			switch (c) {
-//			case '%':
-//				sb.append("\\%");
-//				break;
-//			case '\\':
-//				sb.append("\\\\");
-//				break;
-//			case '_':
-//				sb.append("\\_");
-//				break;
-//			default:
-//				sb.append(c);
-//			}
-//		}
 		return text;
 	}
 

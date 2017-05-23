@@ -12,7 +12,7 @@ public class Main extends WebMvcConfigurerAdapter {
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
 	}
-
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/templates/");

@@ -10,6 +10,10 @@ import com.manager.entities.TblCompany;
 @Repository
 @Transactional
 public interface TblCompanyDao extends JpaRepository<TblCompany, Integer> {
-
-	TblCompany findByCompanyName(String companyName);
+	/**
+	 * 
+	 * @param companyName
+	 * @return
+	 */
+	int countByCompanyName(String companyName);
 }

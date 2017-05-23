@@ -9,24 +9,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.manager.entities.UserInfor;
-import com.manager.logics.UserInforLogic;
+import com.manager.entities.TblUser;
+import com.manager.logics.TblUserLogic;
+import com.manager.utils.Constant;
 
 @Controller("/detailUser")
 public class DetailUserController {
-
 	@Autowired
-	UserInforLogic userInforLogic;
+	TblUserLogic userLogic;
 
 	@RequestMapping(value = "/detailUser", method = RequestMethod.GET)
 	public String showDetailUser(Model model, @RequestParam Map<String, String> map) {
 		try {
 			int userID = Integer.parseInt(map.get("userID"));
-			UserInfor userInfor = userInforLogic.findUserByID(userID);
+			TblUser userInfor = userLogic.getUserByID(userID);
 			model.addAttribute("userInfor", userInfor);
-			return "MH03";
+			return Constant.MH03;
 		} catch (Exception e) {
-			return "SystemError";
+			return Constant.SYSTEM_ERROR;
 		}
 	}
 }

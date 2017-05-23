@@ -1,53 +1,69 @@
+/**
+ * Copyright(C) 2016 Luvina Software Company *
+ * TblCompany.java, 30-08-2016, nguyenvietloi
+ */
 package com.manager.entities;
 
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- * 
- * @author nguyenthanhtung
+ * Entity mapping bảng tbl_company trong db
  *
+ * @author nguyenvietloi
  */
+
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "tbl_company")
-public class TblCompany {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "company_internal_id")
-	private int company_internal_id;
+public class TblCompany implements Serializable {
 
-	@NotNull
-	@Column(name = "company_name")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "company_internal_id")
+	private int companyInternalId;
+
+	@Column(name = "company_name", nullable = false)
 	private String companyName;
 
 	@NotNull
-	@Column(name = "address")
 	private String address;
 
-	@Column(name = "email")
 	private String email;
 
-	@Column(name = "telephone")
 	private String telephone;
 
-	// private List<TblUser> listUser;
+	@OneToMany(mappedBy = "tblCompany", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<TblUser> tblUsers;
+
 	/**
-	 * 
+	 * Default Constructor
 	 */
 	public TblCompany() {
-		super();
 	}
 
 	/**
-	 * @param company_name
-	 * @param adress
+	 * Constructor chứa tham số
+	 * 
+	 * @param companyName
+	 *            Tên công ty
+	 * @param address
+	 *            Địa chỉ
 	 * @param email
+	 *            Địa chỉ email
 	 * @param telephone
+	 *            Số điện thoại
 	 */
 	public TblCompany(String companyName, String address, String email, String telephone) {
 		this.companyName = companyName;
@@ -57,48 +73,48 @@ public class TblCompany {
 	}
 
 	/**
-	 * @return the company_internal_id
+	 * @return the companyInternalId
 	 */
-	public int getCompany_internal_id() {
-		return company_internal_id;
+	public int getCompanyInternalId() {
+		return companyInternalId;
 	}
 
 	/**
-	 * @param company_internal_id
-	 *            the company_internal_id to set
+	 * @param companyInternalId
+	 *            the companyInternalId to set
 	 */
-	public void setCompany_internal_id(int company_internal_id) {
-		this.company_internal_id = company_internal_id;
+	public void setCompanyInternalId(int companyInternalId) {
+		this.companyInternalId = companyInternalId;
 	}
 
 	/**
-	 * @return the company_name
+	 * @return the companyName
 	 */
-	public String getCompany_name() {
+	public String getCompanyName() {
 		return companyName;
 	}
 
 	/**
-	 * @param company_name
-	 *            the company_name to set
+	 * @param companyName
+	 *            the companyName to set
 	 */
-	public void setCompany_name(String company_name) {
-		this.companyName = company_name;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 	/**
-	 * @return the adress
+	 * @return the address
 	 */
-	public String getAdress() {
+	public String getAddress() {
 		return address;
 	}
 
 	/**
-	 * @param adress
+	 * @param address
 	 *            the address to set
 	 */
-	public void setAdress(String adress) {
-		this.address = adress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	/**
@@ -131,20 +147,28 @@ public class TblCompany {
 		this.telephone = telephone;
 	}
 
-	// /**
-	// * @return the listUser
-	// */
-	// @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	// public List<TblUser> getListUser() {
-	// return listUser;
-	// }
-	//
-	// /**
-	// * @param listUser
-	// * the listUser to set
-	// */
-	// public void setListUser(List<TblUser> listUser) {
-	// this.listUser = listUser;
-	// }
+	/**
+	 * @return the tblUsers
+	 */
+	public Set<TblUser> getTblUsers() {
+		return tblUsers;
+	}
 
+	/**
+	 * @param tblUsers
+	 *            the tblUsers to set
+	 */
+	public void setTblUsers(Set<TblUser> tblUsers) {
+		this.tblUsers = tblUsers;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return this.companyName + "," + this.address + "," + this.email + "," + this.telephone;
+	}
 }

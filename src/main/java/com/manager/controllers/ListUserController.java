@@ -1,11 +1,5 @@
-/**
- * 
- */
 package com.manager.controllers;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,221 +12,157 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.manager.entities.UserInfor;
+import com.manager.dao.TblUserDao;
+import com.manager.entities.ObjectSession;
+import com.manager.entities.TblUser;
 import com.manager.logics.TblCompanyLogic;
-import com.manager.logics.UserInforLogic;
+import com.manager.logics.TblUserLogic;
+import com.manager.repository.TblUserRepositoryImpl;
 import com.manager.utils.Common;
 import com.manager.utils.Constant;
 import com.manager.utils.MessageProperties;
 
-/**
- * @author komkom
- *
- */
 @Controller("/listUser")
 public class ListUserController {
 	@Autowired
-	private HttpSession session;
+	HttpSession session;
 
 	@Autowired
-	private TblCompanyLogic companyLogic;
+	TblUserLogic userLogic;
 
 	@Autowired
-	private UserInforLogic userInforLogic;
+	TblUserDao userDao;
 
-	/**
-	 * 
-	 * @param model
-	 * @param mapParam
-	 * @return
-	 */
-	@RequestMapping(value = { "/listUser", "/listUserBack" }, method = RequestMethod.GET)
-	public String loginPage(Model model, @RequestParam Map<String, String> mapParam) {
-		try {
-			model.addAttribute("listCompany", companyLogic.findAll());
-			List<UserInfor> listUserInf = userInforLogic.getListUserInfor("", "", "");
-			List<UserInfor> listUF = new ArrayList<UserInfor>();
-			Collections.sort(listUserInf, new Comparator<UserInfor>() {
-				@Override
-				public int compare(UserInfor o1, UserInfor o2) {
-					return o1.getUser_full_name().compareTo(o2.getUser_full_name());
-				}
-			});
-			for (int i = 0; i <= Constant.LIMIT - 1; i++) {
-				UserInfor userInf = listUserInf.get(i);
-				listUF.add(userInf);
-			}
+	@Autowired
+	TblCompanyLogic companyLogic;
 
-			int totalUser = listUserInf.size();
-			int limit = Common.getLimit();
-			int totalPage = Common.getTotalPage(totalUser, limit);
+	@Autowired
+	TblUserRepositoryImpl userRepoImpl;
 
-			session.setAttribute("sortBy", "asc");
-			session.setAttribute("listUserInfor", listUF);
-			session.setAttribute("totalPage", totalPage);
-			session.setAttribute("listUF", listUserInf);
-			session.setAttribute("currentPage", 1);
-			session.setAttribute("endPoint", Common.endPoint);
-			session.setAttribute("listpaging", Common.getListPaging(listUserInf.size(), Constant.LIMIT, 1));
-			return "MH02";
-		} catch (Exception e) {
-			return "SystemError";
-		}
+	ObjectSession objSS = new ObjectSession();
+	ObjectSession objGetForm = new ObjectSession();
+
+	@RequestMapping(value = "/listUser", method = RequestMethod.GET)
+	public String listUser(Model model, @RequestParam Map<String, String> map) {
+		model.addAttribute("listCompany", companyLogic.findAll());
+		int companyIDSearch = 1;
+		System.out.println(map.get("type"));
+
+		String sortBy = "asc";
+		int crrPage = 1;
+
+		int totalUser = userRepoImpl.getTotalUser(companyIDSearch, "", "", "");
+		int totalPage = Common.getTotalPage(totalUser, Constant.LIMIT);
+		int offset = 0;
+		List<TblUser> listUser = userRepoImpl.getListUser(companyIDSearch, "", "", "", sortBy, offset, Constant.LIMIT);
+		objSS.setFullName("");
+		objSS.setInsNumber("");
+		objSS.setPlaceReg("");
+		objSS.setCompanyID(companyIDSearch);
+		objSS.setListpaging(Common.getListPaging(totalUser, Constant.LIMIT, crrPage));
+		objSS.setTotalPage(totalPage);
+		objSS.setCurrentPage(crrPage);
+		objSS.setEndPoint(Common.endPoint);
+		objSS.setListUser(listUser);
+		objSS.setSortBy(sortBy);
+		session.setAttribute("objSS", objSS);
+		return Constant.MH02;
 	}
 
-	/**
-	 * 
-	 * @param model
-	 * @param fullnameForm
-	 * @param insNumberForm
-	 * @param placeRegForm
-	 * @param map
-	 * @return
-	 */
-	@RequestMapping(value = { "/listUserSearch" }, method = RequestMethod.GET)
-	public String listPage(Model model, @RequestParam(value = "fullNameForm") String fullnameForm,
-			@RequestParam(value = "insNumberForm") String insNumberForm,
-			@RequestParam(value = "placeRegForm") String placeRegForm, @RequestParam Map<String, String> map) {
-		try {
-			model.addAttribute("listCompany", companyLogic.findAll());
-			int companyIDSearch = Integer.parseInt(map.get("companyForm"));
-			session.setAttribute("companyIDSearch", companyIDSearch);
-			int currentPage = 1;
-			
-			List<UserInfor> listUserInf = userInforLogic.getListUserInfor(Common.escapeSQLInjection(fullnameForm), insNumberForm, placeRegForm);
-			Collections.sort(listUserInf, new Comparator<UserInfor>() {
-				@Override
-				public int compare(UserInfor o1, UserInfor o2) {
-					return o1.getUser_full_name().compareTo(o2.getUser_full_name());
-				}
-			});
-			int size = listUserInf.size();
-			int totalPage = Common.getTotalPage(size, Constant.LIMIT);
-
-			List<UserInfor> listUF = new ArrayList<UserInfor>();
-			for (int i = 0; i <= Constant.LIMIT - 1; i++) {
-				try {
-					UserInfor userInf = listUserInf.get(i);
-					listUF.add(userInf);
-				} catch (IndexOutOfBoundsException e) {
-					break;
-				}
-			}
-			session.setAttribute("totalPage", totalPage);
-			session.setAttribute("sizePg", size);
-			session.setAttribute("listUF", listUserInf);
-			session.setAttribute("fullName", fullnameForm);
-			session.setAttribute("insNumber", insNumberForm);
-			session.setAttribute("placeReg", placeRegForm);
-			session.setAttribute("currentPage", currentPage);
-			session.setAttribute("endPoint", Common.endPoint);
-			session.setAttribute("sortBy", "asc");
-			session.setAttribute("listUserInfor", listUF);
-			session.setAttribute("listpaging", Common.getListPaging(size, Constant.LIMIT, currentPage));
+	@RequestMapping(value = "/listUserSearch", method = RequestMethod.GET)
+	public String searchUser(@RequestParam Map<String, String> map, Model model) {
+		model.addAttribute("listCompany", companyLogic.findAll());
+		int companyIDSearch = Integer.parseInt(map.get("companyForm"));
+		int crrtPage = 1;
+		String sortBy = "asc";
+		String fullName = map.get("fullNameForm");
+		objSS.setFullName(fullName);
+		fullName = Common.escapeSQLInjection(fullName);
+		String insNumber = map.get("insNumberForm");
+		String placeReg = map.get("placeRegForm");
+		objSS.setPlaceReg(placeReg);
+		placeReg = Common.escapeSQLInjection(placeReg);
+		int totalUser = userRepoImpl.getTotalUser(companyIDSearch, fullName, insNumber, placeReg);
+		List<TblUser> listUser = null;
+		if (totalUser == 0) {
 			model.addAttribute("error", MessageProperties.getMSS("ERR04"));
-			return "MH02";
-		} catch (Exception e) {
-			return "SystemError";
+		} else {
+			int totalPage = Common.getTotalPage(totalUser, Constant.LIMIT);
+			int offset = Common.getOffset(crrtPage, Constant.LIMIT);
+			listUser = userRepoImpl.getListUser(companyIDSearch, fullName, insNumber, placeReg, sortBy, offset,
+					Constant.LIMIT);
+			objSS.setListpaging(Common.getListPaging(totalUser, Constant.LIMIT, crrtPage));
+			objSS.setTotalPage(totalPage);
+
 		}
+
+		objSS.setListUser(listUser);
+		objSS.setInsNumber(insNumber);
+		objSS.setCompanyID(companyIDSearch);
+		objSS.setSortBy(sortBy);
+		objSS.setCurrentPage(crrtPage);
+		session.setAttribute("objSS", objSS);
+		return Constant.MH02;
 	}
 
-	/**
-	 * 
-	 * @param model
-	 * @param map
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/listUserSort", method = RequestMethod.GET)
-	public String sort(Model model, @RequestParam Map<String, String> map) {
-		try {
-
-			model.addAttribute("listCompany", companyLogic.findAll());
-
-			List<UserInfor> listUserInfor = (List<UserInfor>) session.getAttribute("listUF");
-			// String sortBy = map.get("sortBy");
-			String sortBy = (String) session.getAttribute("sortBy");
-			if ("asc".equals(sortBy)) {
-				sortBy = "desc";
-				Collections.sort(listUserInfor, new Comparator<UserInfor>() {
-					@Override
-					public int compare(UserInfor o1, UserInfor o2) {
-						return o2.getUser_full_name().compareTo(o1.getUser_full_name());
-					}
-				});
-			} else if ("desc".equals(sortBy)) {
-				sortBy = "asc";
-				Collections.sort(listUserInfor, new Comparator<UserInfor>() {
-					@Override
-					public int compare(UserInfor o1, UserInfor o2) {
-						return o1.getUser_full_name().compareTo(o2.getUser_full_name());
-					}
-				});
-			}
-
-			List<UserInfor> listUF = new ArrayList<UserInfor>();
-			for (int i = 0; i <= Constant.LIMIT - 1; i++) {
-				try {
-					UserInfor userInf = listUserInfor.get(i);
-					listUF.add(userInf);
-				} catch (IndexOutOfBoundsException e) {
-					break;
-				}
-			}
-			int currentPage = (int) session.getAttribute("currentPage");
-			int size = listUserInfor.size();
-			int totalPage = Common.getTotalPage(size, Constant.LIMIT);
-
-			session.setAttribute("currentPage", map.get("currentPage"));
-			session.setAttribute("currentPage", 1);
-			session.setAttribute("totalPage", totalPage);
-			session.setAttribute("listUserInfor", listUF);
-			session.setAttribute("companyIDSearch", 1);
-			session.setAttribute("listpaging", Common.getListPaging(size, Constant.LIMIT, currentPage));
-			session.setAttribute("sortBy", sortBy);
-			return "MH02";
-		} catch (Exception e) {
-			return "SystemError";
+	public String sortUser(@RequestParam Map<String, String> map, Model model) {
+		model.addAttribute("listCompany", companyLogic.findAll());
+		objGetForm = (ObjectSession) session.getAttribute("objSS");
+		String sortBy = objGetForm.getSortBy();
+		if ("asc".equals(sortBy)) {
+			sortBy = "desc";
+		} else if ("desc".equals(sortBy)) {
+			sortBy = "asc";
 		}
+		objGetForm = (ObjectSession) session.getAttribute("objSS");
+		String fullName = objGetForm.getFullName();
+		String insNumber = objGetForm.getInsNumber();
+		String placeReg = objGetForm.getPlaceReg();
+		int companyIDSearch = objGetForm.getCompanyID();
+		int totalUser = userRepoImpl.getTotalUser(companyIDSearch, fullName, insNumber, placeReg);
+		int totalPage = Common.getTotalPage(totalUser, Constant.LIMIT);
+		List<TblUser> listUser = userRepoImpl.getListUser(companyIDSearch, fullName, insNumber, placeReg, sortBy, 0,
+				Constant.LIMIT);
+		objSS.setListUser(listUser);
+		objSS.setCurrentPage(1);
+		objSS.setTotalPage(totalPage);
+		objSS.setCompanyID(companyIDSearch);
+		objSS.setListpaging(Common.getListPaging(totalUser, Constant.LIMIT, 1));
+		objSS.setSortBy(sortBy);
+		session.setAttribute("objSS", objSS);
+		return Constant.MH02;
 	}
 
-	/**
-	 * 
-	 * @param model
-	 * @param map
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/listUserPaging", method = RequestMethod.GET)
-	public String getPaging(Model model, @RequestParam Map<String, String> map) {
-		try {
-			model.addAttribute("listCompany", companyLogic.findAll());
-			List<UserInfor> listUserInfor = (List<UserInfor>) session.getAttribute("listUF");
-			List<UserInfor> listUF = new ArrayList<UserInfor>();
-			int totalUser = listUserInfor.size();
-			int limit = Common.getLimit();
-			int crrPage = Integer.parseInt(map.get("page"));
-			int totalPage = Common.getTotalPage(totalUser, limit);
-			int offset = Common.getOffset(crrPage, limit);
-			List<Integer> listPaging = Common.getListPaging(totalUser, limit, crrPage);
-			for (int i = offset; i <= offset + Constant.LIMIT - 1; i++) {
-				try {
-					UserInfor userInf = listUserInfor.get(i);
-					listUF.add(userInf);
-				} catch (IndexOutOfBoundsException e) {
-					break;
-				}
-			}
+	public String pagingUser(@RequestParam Map<String, String> map, Model model) {
+		model.addAttribute("listCompany", companyLogic.findAll());
+		int crrPage = Integer.parseInt(map.get("page"));
+		objGetForm = (ObjectSession) session.getAttribute("objSS");
+		String sortBy = objGetForm.getSortBy();
+		String fullName = objGetForm.getFullName();
+		String insNumber = objGetForm.getInsNumber();
+		String placeReg = objGetForm.getPlaceReg();
+		int companyIDSearch = objGetForm.getCompanyID();
+		int totalUser = userRepoImpl.getTotalUser(companyIDSearch, fullName, insNumber, placeReg);
+		int totalPage = Common.getTotalPage(totalUser, Constant.LIMIT);
+		int offset = Common.getOffset(crrPage, Constant.LIMIT);
+		List<TblUser> listUser = userRepoImpl.getListUser(companyIDSearch, fullName, insNumber, placeReg, sortBy,
+				offset, Constant.LIMIT);
 
-			session.setAttribute("offset", offset);
-			session.setAttribute("listpaging", listPaging);
-			session.setAttribute("endPoint", Common.endPoint);
-			session.setAttribute("currentPage", crrPage);
-			session.setAttribute("totalPage", totalPage);
-			session.setAttribute("listUserInfor", listUF);
-			return "MH02";
-		} catch (Exception e) {
-			return "SystemError";
-		}
+		objSS.setCompanyID(companyIDSearch);
+		objSS.setListpaging(Common.getListPaging(totalUser, Constant.LIMIT, crrPage));
+		objSS.setListUser(listUser);
+		objSS.setOffset(offset);
+		objSS.setEndPoint(Common.endPoint);
+		objSS.setCurrentPage(crrPage);
+		objSS.setTotalPage(totalPage);
+		objSS.setCompanyID(companyIDSearch);
+		objSS.setFullName(fullName);
+		objSS.setInsNumber(insNumber);
+		objSS.setPlaceReg(placeReg);
+		session.setAttribute("objSS", objSS);
+		return Constant.MH02;
 	}
+
 }

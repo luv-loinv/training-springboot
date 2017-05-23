@@ -3,16 +3,26 @@ package com.manager.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
+import com.manager.entities.ObjectSession;
 import com.manager.entities.TblUser;
-import com.manager.entities.UserInfor;
+import com.manager.logics.TblCompanyLogic;
+import com.manager.logics.TblInsuranceLogic;
 import com.manager.logics.TblUserLogic;
 
-@Service
-@Component
+/**
+ * 
+ * @author nguyenthanhtung
+ *
+ */
 public class Validator {
+	/**
+	 * Phương thức validate tên đăng nhập và password
+	 * 
+	 * @param username
+	 * @param password
+	 * @param userLogic
+	 * @return
+	 */
 	public static List<String> validLogin(String username, String password, TblUserLogic userLogic) {
 		List<String> listErr = new ArrayList<String>();
 		if ("".equals(username)) {
@@ -22,7 +32,7 @@ public class Validator {
 		if ("".equals(password)) {
 			listErr.add(MessageProperties.getMSS("ERR02"));
 		}
-		List<TblUser> listUser = userLogic.findByUsernameAndPassword(username, Common.encryptMD5(password));
+		List<TblUser> listUser = userLogic.findByUserNameAndPassword(username, Common.encryptMD5(password));
 		if (!"".equals(username) && !"".equals(password) && listUser.size() == 0) {
 			listErr.add(MessageProperties.getMSS("ERR03"));
 		}
@@ -30,26 +40,33 @@ public class Validator {
 		return listErr;
 	}
 
-	public static List<String> validateUser(UserInfor userInfor, String company) {
+	/**
+	 * Phương thức validate đối tượng userInfor
+	 * 
+	 * @param userInfor
+	 * @param company
+	 * @return
+	 */
+	public static List<String> validateUser(ObjectSession userInfor, String company, TblCompanyLogic compLogic,
+			TblInsuranceLogic insLogic) {
 		List<String> errorList = new ArrayList<String>();
 		// validate ma so the bao hiem
-		if (!Common.checkInput(userInfor.getInsurance_number())) {
+		if (!Common.checkInput(userInfor.getInsNumber())) {
 			errorList.add(MessageProperties.getMSS("ERR05"));
-		} else if (!Common.checkMaxLength(userInfor.getInsurance_number(), 10)) {
+		} else if (!Common.checkMaxLength(userInfor.getInsNumber(), 10)) {
 			errorList.add(MessageProperties.getMSS("ERR22"));
-		} 
-		
-//		else if (!Common.checkExistIns(userInfor.getInsurance_number())) {
-//			errorList.add(MessageProperties.getMSS("ERR12"));
-//		}
+		} else if (!insLogic.checkExistIns(userInfor.getInsNumber())) {
+			errorList.add(MessageProperties.getMSS("ERR12"));
+		}
+
 		// validate ho va ten
-		if (!Common.checkInput(userInfor.getUser_full_name())) {
+		if (!Common.checkInput(userInfor.getFullName())) {
 			errorList.add(MessageProperties.getMSS("ERR06"));
-		} else if (!Common.checkMaxLength(userInfor.getUser_full_name(), 50)) {
+		} else if (!Common.checkMaxLength(userInfor.getFullName(), 50)) {
 			errorList.add(MessageProperties.getMSS("ERR17"));
 		}
 		// validate ngay sinh
-		if (!userInfor.getBirthdateInput().equals("") && !Common.checkFormatDate(userInfor.getBirthdateInput())) {
+		if (!userInfor.getBirthdate().equals("") && !Common.checkFormatDate(userInfor.getBirthdate())) {
 			errorList.add(MessageProperties.getMSS("ERR13"));
 		}
 
@@ -61,12 +78,14 @@ public class Validator {
 				errorList.add(MessageProperties.getMSS("ERR07"));
 			} else if (!Common.checkMaxLength(userInfor.getCompanyName(), 50)) {
 				errorList.add(MessageProperties.getMSS("ERR18"));
-			} 
-			
+			} else if (!compLogic.checkExistComp(userInfor.getCompanyName())) {
+				errorList.add(MessageProperties.getMSS("ERR24"));
+			}
+
 			// validate dia chi
-			if (!Common.checkInput(userInfor.getAddressInput())) {
+			if (!Common.checkInput(userInfor.getAddress())) {
 				errorList.add(MessageProperties.getMSS("ERR08"));
-			} else if (!Common.checkMaxLength(userInfor.getAddressInput(), 100)) {
+			} else if (!Common.checkMaxLength(userInfor.getAddress(), 100)) {
 				errorList.add(MessageProperties.getMSS("ERR19"));
 			}
 			// validate email
@@ -83,22 +102,22 @@ public class Validator {
 		}
 
 		// validate noi dang ky KCB
-		if (!Common.checkInput(userInfor.getPlace_of_register())) {
+		if (!Common.checkInput(userInfor.getPlaceReg())) {
 			errorList.add(MessageProperties.getMSS("ERR09"));
-		} else if (!Common.checkMaxLength(userInfor.getPlace_of_register(), 50)) {
+		} else if (!Common.checkMaxLength(userInfor.getPlaceReg(), 50)) {
 			errorList.add(MessageProperties.getMSS("ERR23"));
 		}
 		// validate ngay bat dau
-		if (!Common.checkInput(userInfor.getStartDateInput())) {
+		if (!Common.checkInput(userInfor.getStartDate())) {
 			errorList.add(MessageProperties.getMSS("ERR10"));
-		} else if (!Common.checkFormatDate(userInfor.getStartDateInput())) {
+		} else if (!Common.checkFormatDate(userInfor.getStartDate())) {
 			errorList.add(MessageProperties.getMSS("ERR14"));
 		}
 
 		// validate ngay ket thuc
-		if (!Common.checkInput(userInfor.getEndDateInput())) {
+		if (!Common.checkInput(userInfor.getEndDate())) {
 			errorList.add(MessageProperties.getMSS("ERR11"));
-		} else if (!Common.checkFormatDate(userInfor.getEndDateInput())) {
+		} else if (!Common.checkFormatDate(userInfor.getEndDate())) {
 			errorList.add(MessageProperties.getMSS("ERR15"));
 		}
 

@@ -8,13 +8,11 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.manager.entities.TblUser;
 
-/**
- * @author komkom
- *
- */
+@Repository
 @Transactional
 public interface TblUserDao extends JpaRepository<TblUser, Integer> {
 	/**
@@ -23,24 +21,6 @@ public interface TblUserDao extends JpaRepository<TblUser, Integer> {
 	 * @param password
 	 * @return
 	 */
-	List<TblUser> findByUsernameAndPassword(String username, String password);
+	List<TblUser> findByUserNameAndPassword(String username, String password);
 
-	/**
-	 * 
-	 * @param user_full_name
-	 * @return
-	 */
-	List<TblUser> findByUserFullName(String user_full_name);
-	
-	/**
-	 * 
-	 * @param user_full_name
-	 * @return
-	 */
-	List<TblUser> findByUserFullNameContaining(String user_full_name);
-
-	// List<TblUser> findAllOrderByUserFullNameAsc();
-	//
-	// List<TblUser> findAllOrderByUserFullNameDesc();
-	
 }

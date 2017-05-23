@@ -17,16 +17,15 @@ public class TblUserLogic {
 	@Autowired(required = true)
 	private TblUserDao userDao;
 
-	public List<TblUser> findByUsernameAndPassword(String username, String password) {
-		return userDao.findByUsernameAndPassword(username, password);
-
+	public List<TblUser> findByUserNameAndPassword(String username, String password) {
+		return userDao.findByUserNameAndPassword(username, password);
 	}
 
-	public List<TblUser> findAll() {
-		return userDao.findAll();
+	public TblUser getUserByID(int userID) {
+		return userDao.findOne(userID);
 	}
 
-	public List<TblUser> findByUserFullName(String user_full_name) {
-		return userDao.findByUserFullName(user_full_name);
+	public void saveUser(TblUser user) {
+		userDao.save(user);
 	}
 }
