@@ -2,6 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 <head>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -45,24 +46,26 @@
 			    <strong>Warning!</strong> {{message}}
 			</div>
 			
-			<form action="/user/save" method="post" >
+			<form:form method="post" action="/user/save" commandName="userForm">
 				<div class="content">
 					<div class="col-sm-12">
 						<div class="col-sm-6">
 							<table class="table table-striped form-group">
 								<tr>
 									<th class="warning col-sm-4">Mã số thẻ bảo hiểm</th>
-									<td><input type="text" class="form-control" name="insurance_number" id="insurance_number"/></td>
+									<td>
+										<input type="text" class="form-control" name="insuranceNumber" id="insuranceNumber"/>
+									</td>
 								</tr>
 								<tr>
 									<th class="warning">Họ và Tên</th>
-									<td><input type="text" class="form-control"  name="user_full_name" id="user_full_name"/></td>
+									<td><input type="text" class="form-control"  name="userFullName" id="userFullName"/></td>
 								</tr>
 								<tr>
 									<th class="warning">Giới tính</th>
 									<td>
-										<label class="radio-inline"><input type="radio" checked="checked" name="user_sex_division" value="1"> Nam</label>
-										<label class="radio-inline"><input type="radio"  name="user_sex_division" value="2"> Nữ</label>
+										<label class="radio-inline"><input type="radio" checked="checked" name="userSexDivision" value="1"> Nam</label>
+										<label class="radio-inline"><input type="radio"  name="userSexDivision" value="2"> Nữ</label>
 									</td>
 								</tr>
 								<tr>
@@ -73,8 +76,8 @@
 									<th class="warning">Tên công ty</th>
 									<td>
 										<div class="form-group">
-											<label class="radio-inline"><input type="radio" name="is_company" ng-model="is_company" data-ng-value="true"> Công ty đã có</label>
-											<label class="radio-inline"><input type="radio" name="is_company" ng-model="is_company" data-ng-value="false"> Đăng ký theo công ty mới</label>
+											<label class="radio-inline"><input type="radio" name="isCompany" ng-model="is_company" data-ng-value="true"> Công ty đã có</label>
+											<label class="radio-inline"><input type="radio" name="isCompany" ng-model="is_company" data-ng-value="false"> Đăng ký theo công ty mới</label>
 										</div>
 										<div class="form-group" ng-show="is_company">
 											<select class="form-control" name="companyId" ng-model="company" ng-change="loadCompanyDetail()">
@@ -85,7 +88,7 @@
 											<tr>
 												<th class="warning">Tên công ty</th>
 												<td>
-													<input ng-if="!is_company" type="text" class="form-control"  name="company_name" id="company_name"/>
+													<input ng-if="!is_company" type="text" class="form-control"  name="companyName" id="company_name"/>
 													<span ng-if="is_company"  >{{companyDetail.companyName}}</span>
 												</td>
 											</tr>
@@ -116,19 +119,19 @@
 								<tr>
 									<th class="warning">Nơi đăng ký KCB</th>
 									<td>
-										<input type="text" class="form-control"  name="place_of_register" id="place_of_register"/>
+										<input type="text" class="form-control"  name="placeOfRegister" id="placeOfRegister"/>
 									</td>
 								</tr>
 								<tr>
 									<th class="warning">Ngày bắt đầu thẻ BH</th>
 									<td>
-										<input type="date" class="form-control"  name="insurance_start_date" id="insurance_start_date"/>
+										<input type="date" class="form-control"  name="insuranceStartDate" id="insuranceStartDate"/>
 									</td>
 								</tr>
 								<tr>
 									<th class="warning">Ngày kết thúc thẻ BH</th>
 									<td>
-										<input type="date" class="form-control"  name="insurance_end_date" id="insurance_end_date"/>
+										<input type="date" class="form-control"  name="insuranceEndDate" id="insuranceEndDate"/>
 									</td>
 								</tr>
 							</table>
@@ -140,7 +143,7 @@
 						<button class="btn btn-primary" type="submit">Đăng ký</button>
 					</div>
 				</div>
-			</form>
+			</form:form>
 		</div>
 	</div>
 	

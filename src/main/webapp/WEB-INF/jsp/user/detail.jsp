@@ -2,6 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -63,7 +64,7 @@
 							</tr>
 							<tr>
 								<th class="warning">Ngày sinh</th>
-								<td>${user.getBirthdate()}</td>
+								<td><fmt:formatDate value="${user.getBirthdate()}" pattern="dd/MM/yyyy" /></td>
 							</tr>
 							<tr>
 								<th class="warning">Tên công ty</th>
@@ -76,16 +77,17 @@
 							<tr>
 								<th class="warning">Kỳ hạn thẻ bảo hiểm</th>
 								<td>
-									${insurace.getInsuranceStartDate()} đến 
-									${insurace.getInsuranceEndDate()}
+									<fmt:formatDate value="${insurace.getInsuranceStartDate()}" pattern="dd/MM/yyyy" />
+									 đến 
+									<fmt:formatDate value="${insurace.getInsuranceEndDate()}" pattern="dd/MM/yyyy" />
 								</td>
 							</tr>
 						</table>
 					</div>
 				</div>
 				
-				<div class="btn">
-					<a><button class="btn btn-danger">Xóa</button></a>
+				<div class="form-group">
+					<a href="/user/delete/${user.userInternalId}"><button class="btn btn-danger">Xóa</button></a>
 					<a><button class="btn btn-primary">Cập nhật</button></a>
 				</div>
 			</div>

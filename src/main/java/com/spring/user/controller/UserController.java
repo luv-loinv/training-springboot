@@ -1,56 +1,62 @@
 package com.spring.user.controller;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Transient;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.spring.company.entity.TblCompany;
-import com.spring.company.repository.CompanyRepository;
+import com.spring.company.service.CompanyService;
 import com.spring.insurance.entity.TblInsurance;
-import com.spring.insurance.repository.InsuranceRepository;
+import com.spring.insurance.service.InsuranceService;
 import com.spring.user.entity.TblUser;
-import com.spring.user.repository.UserRepository;
+import com.spring.user.form.UserForm;
+import com.spring.user.service.UserService;
 
 @Controller
 public class UserController {
-	@Autowired
-	private UserRepository _userRepository;
+	
+	private MessageSource messageSource;
 
 	@Autowired
-	private CompanyRepository _companyRepository;
+	private UserService _userService;
 
 	@Autowired
-	private InsuranceRepository _insuranceRepository;
+	HttpSession session;
+
+	@Autowired
+	private CompanyService _companyService;
+
+	@Autowired
+	private InsuranceService _insuranceService;
 
 	private final Gson gson = new Gson();
 
     @RequestMapping("user/detail/{id}")
     public String detail(@PathVariable("id") Long id, Map<String, Object> model) {
     	try {
-    		TblUser userDetail = _userRepository.findOne(id);
+    		TblUser userDetail = _userService.getUserRepo().findOne(id);
     		model.put("insurace", userDetail.getTblInsurance());
     		model.put("company", userDetail.getTblCompany());
     		model.put("user", userDetail);
     	} catch (Exception e) {}
-
     	return "user/detail";
     }
     
@@ -62,63 +68,40 @@ public class UserController {
     		headers = "content-type=application/x-www-form-urlencoded"
 	)
     @Transactional
-    @Transient
-    @ResponseBody
-    public void saveUser(HttpServletRequest req, HttpServletResponse response) throws IOException, ParseException {
-    	TblUser user = new TblUser();
-    	TblCompany company = new TblCompany();
-    	TblInsurance insurance = new TblInsurance();
-    	if (Boolean.getBoolean(req.getParameter("is_company")) == false) {
-        	company.setCompanyName(req.getParameter("company_name"));
-        	company.setAddress(req.getParameter("address"));
-        	company.setEmail(req.getParameter("email"));
-        	company.setTelephone(req.getParameter("telephone"));
-        	_companyRepository.save(company);
-        	_companyRepository.flush();
+    public String saveUser(HttpServletRequest req, HttpServletResponse response,
+    	@Valid @ModelAttribute("userForm") UserForm userForm, Errors errors) throws IOException, ParseException {
+
+    	if (errors.hasErrors()) {
+    		session.setAttribute("messageError", errors);
+    		return "/user/add";
     	}
+    	
+    	TblCompany company = _companyService.saveCompany(userForm);
 
-    	insurance.setInsuranceNumber(req.getParameter("insurance_number"));
-    	String startDateString = req.getParameter("insurance_start_date");
-    	String endDateString = req.getParameter("insurance_end_date");
-    	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    	Date startDate;
-    	Date endDate;
-    	startDate = df.parse(startDateString);
-    	endDate = df.parse(endDateString);
-    	insurance.setInsuranceStartDate(startDate);
-    	insurance.setInsuranceEndDate(endDate);
-    	insurance.setPlaceOfRegister(req.getParameter("place_of_register"));
+    	TblInsurance insurance = _insuranceService.saveInsurance(userForm);
     	
-    	_insuranceRepository.save(insurance);
-    	_insuranceRepository.flush();
-    	
-    	user.setUserFullName(req.getParameter("user_full_name"));
-    	user.setUserName(req.getParameter("user_full_name"));
-    	user.setPassword("123456123");
-    	user.setUserSexDivision(req.getParameter("user_sex_division"));
-    	String birthdateString = req.getParameter("birthdate");
-    	Date birthdate;
-    	birthdate = df.parse(birthdateString);
-    	user.setBirthdate(birthdate);
-    	
-    	_userRepository.save(user);
-    	_userRepository.flush();
+    	_userService.saveUser(userForm, company, insurance);
 
-    	RedirectAttributes attributes = null;
-    	attributes.addFlashAttribute("message", "Đăng ký thành công");
-    	
+		Cookie cookie = new Cookie("messageSuccess", "Đăng ký thành công");
+		response.addCookie(cookie);
     	response.sendRedirect("/user/add");
+    	return "";
     }
 
     @RequestMapping(value = "user/add", method = RequestMethod.GET)
     public String add(Map<String, Object> model) {
-    	try {
-    		List<TblCompany> listCompany = _companyRepository.findAll();
-
-    	} catch (Exception e) {
-    		System.out.println(e.getMessage());
-    	}
     	
     	return "user/add";
+    }
+
+    @Transactional
+    @RequestMapping("user/delete/{id}")
+    public void deleteUser(HttpServletRequest req, HttpServletResponse response, @PathVariable("id") Long id) throws Exception, IOException {
+    	TblUser user = _userService.getUserRepo().findOne(id);
+    	_userService.getUserRepo().delete(user);
+    	System.out.println(user.getTblInsurance().getInsuranceInternalId());
+    	//_insuranceRepository.delete(user.getTblInsurance().getInsuranceInternalId());
+    	
+    	response.sendRedirect("/search");
     }
 }
