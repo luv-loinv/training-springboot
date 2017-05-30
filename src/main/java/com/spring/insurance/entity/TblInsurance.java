@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.spring.user.entity.TblUser;
 
@@ -29,7 +30,7 @@ public class TblInsurance implements Serializable{
 	@Column(name="insurance_internal_id")
 	private Long insuranceInternalId;
 	
-	@Column(name="insurance_number", nullable = false)
+	@Column(name="insurance_number", nullable = false, unique=true)
 	private String insuranceNumber;
 	
 	@Column(name="insurance_start_date", nullable = false)

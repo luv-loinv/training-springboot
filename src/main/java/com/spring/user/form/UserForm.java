@@ -1,43 +1,67 @@
 package com.spring.user.form;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
+import org.assertj.core.util.CheckReturnValue;
+import org.hibernate.annotations.Check;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.spring.validator.ValidExists;
+
 public class UserForm {
-	@NotNull
-	@Pattern(regexp="^\\d{10}$", message="Lỗi nhập sai định dạng tại hạng mục mã số thẻ bảo hiểm")
+	@NotNull(message = "{NotEmpty.formSave.insuranceNumber}")
+	@Pattern(regexp="^\\d{10}$", message="{NotDigit.userForm.insuranceNumber}")
+	@ValidExists(tableNames = "tbl_insurance", columnNames = "insurance_number", message = "{Existed.userForm.insuranceNumber}")
 	private String insuranceNumber;
-	@NotNull
+
+	@NotNull(message="{userFullName.notempty}")
+	@Size(max=50, message="{MaxLength.userForm.fullName}")
 	private String userFullName;
-	@NotNull
+
 	private String userSexDivision;
+
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private String birthdate;
+
 	private String isCompany;
+
 	private String companyId;
-	@NotNull
+
+	@NotBlank(message="{NotEmpty.userForm.companyName}")
+	@Size(max=50, message="{MaxLength.userForm.companyName}")
 	private String companyName;
-	@NotNull
+
+	@NotBlank(message="{NotEmpty.userForm.companyAddress}")
+	@Size(max=100, message="{MaxLength.userForm.companyAddress}")
 	private String address;
+
+	@NotBlank(message="{NotFormat.userForm.companyEmail}")
+	@Size(max=50, message="{MaxLength.userForm.companyEmail}")
 	private String email;
+
+	@Pattern(regexp="^\\d+$", message="{NotFormat.userForm.companyTel}")
 	private String telephone;
-	@NotNull
+
+	@NotNull(message="{NotEmpty.userForm.placeRegister}")
+	@Size(max=50, message="{MaxLength.userForm.placeRegister}")
 	private String placeOfRegister;
-	@NotNull
-	@DateTimeFormat(pattern="dd/MM/yyyy")
+
 	private String insuranceStartDate;
-	@NotNull
-	@DateTimeFormat(pattern="dd/MM/yyyy")
+
 	private String insuranceEndDate;
 
 	public String getInsuranceNumber() {
 		return insuranceNumber;
 	}
+
 	public void setInsuranceNumber(String insuranceNumber) {
 		this.insuranceNumber = insuranceNumber;
 	}
+
 	public String getUserFullName() {
 		return userFullName;
 	}

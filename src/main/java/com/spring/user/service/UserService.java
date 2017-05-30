@@ -45,5 +45,4 @@ public class UserService {
 	public void setUserRepo(UserRepository userRepo) {
 		this.userRepo = userRepo;
 	}
-	
 }

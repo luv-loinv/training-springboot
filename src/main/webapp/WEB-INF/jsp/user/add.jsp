@@ -41,9 +41,11 @@
 		<div class="starter-template ng-scope">
 			<h1>Thêm mới thông tin thẻ bảo hiểm</h1>
 			
-			<div class="alert alert-warning" ng-if="message">
+			<div class="alert alert-danger" ng-if="messageError">
 			    <a href="#" class="close" data-dismiss="alert">&times;</a>
-			    <strong>Warning!</strong> {{message}}
+			    <ul>
+			    	<li ng-repeat="error in messageError">{{error.defaultMessage}}</li>
+			    </ul>
 			</div>
 			
 			<form:form method="post" action="/user/save" commandName="userForm">
@@ -54,32 +56,33 @@
 								<tr>
 									<th class="warning col-sm-4">Mã số thẻ bảo hiểm</th>
 									<td>
-										<input type="text" class="form-control" name="insuranceNumber" id="insuranceNumber"/>
+										<input type="text" class="form-control" name="insuranceNumber" id="insuranceNumber" ng-model="userFormData.insuranceNumber" />
 									</td>
 								</tr>
 								<tr>
 									<th class="warning">Họ và Tên</th>
-									<td><input type="text" class="form-control"  name="userFullName" id="userFullName"/></td>
+									<td><input type="text" class="form-control"  name="userFullName" id="userFullName" ng-model="userFormData.userFullName" /></td>
 								</tr>
 								<tr>
 									<th class="warning">Giới tính</th>
 									<td>
-										<label class="radio-inline"><input type="radio" checked="checked" name="userSexDivision" value="1"> Nam</label>
-										<label class="radio-inline"><input type="radio"  name="userSexDivision" value="2"> Nữ</label>
+										<label class="radio-inline"><input type="radio" name="userSexDivision" ng-model="userFormData.userSexDivision" ng-value="1"> Nam</label>
+										<label class="radio-inline"><input type="radio" name="userSexDivision" ng-model="userFormData.userSexDivision" ng-value="2"> Nữ</label>
 									</td>
 								</tr>
 								<tr>
 									<th class="warning">Ngày sinh</th>
-									<td><input type="date" class="form-control"  name="birthdate" id="birthdate"/></td>
+									<td><input type="date" class="form-control"  name="birthdate" id="birthdate" ng-model="userFormData.birthdate" /></td>
 								</tr>
 								<tr>
 									<th class="warning">Tên công ty</th>
 									<td>
 										<div class="form-group">
-											<label class="radio-inline"><input type="radio" name="isCompany" ng-model="is_company" data-ng-value="true"> Công ty đã có</label>
-											<label class="radio-inline"><input type="radio" name="isCompany" ng-model="is_company" data-ng-value="false"> Đăng ký theo công ty mới</label>
+											<label class="radio-inline"><input type="radio" name="isCompany" ng-model="is_company" ng-value="true"> Công ty đã có</label>
+											<label class="radio-inline"><input type="radio" name="isCompany" ng-model="is_company" ng-value="false"> Đăng ký theo công ty mới</label>
 										</div>
 										<div class="form-group" ng-show="is_company">
+										
 											<select class="form-control" name="companyId" ng-model="company" ng-change="loadCompanyDetail()">
 												<option ng-repeat="item in listCompany" value="{{item.id}}" >{{item.name}}</option>
 											</select>
@@ -88,28 +91,28 @@
 											<tr>
 												<th class="warning">Tên công ty</th>
 												<td>
-													<input ng-if="!is_company" type="text" class="form-control"  name="companyName" id="company_name"/>
+													<input ng-if="!is_company" type="text" class="form-control"  name="companyName" id="company_name" ng-model="userFormData.companyName"/>
 													<span ng-if="is_company"  >{{companyDetail.companyName}}</span>
 												</td>
 											</tr>
 											<tr>
 												<th class="warning">Địa chỉ</th>
 												<td>
-													<input ng-if="!is_company" type="text" class="form-control"  name="address" id="address"/>
+													<input ng-if="!is_company" type="text" class="form-control"  name="address" id="address" ng-model="userFormData.address"/>
 													<span ng-if="is_company"  >{{companyDetail.address}}</span>
 												</td>
 											</tr>
 											<tr>
 												<th class="warning">Email</th>
 												<td>
-													<input ng-if="!is_company" type="text" class="form-control"  name="email" id="email"/>
+													<input ng-if="!is_company" type="text" class="form-control"  name="email" id="email" ng-model="userFormData.email"/>
 													<span ng-if="is_company"  >{{companyDetail.email}}</span>
 												</td>
 											</tr>
 											<tr>
 												<th class="warning">Điện thoại</th>
 												<td>
-													<input ng-if="!is_company" type="text" class="form-control"  name="telephone" id="telephone"/>
+													<input ng-if="!is_company" type="text" class="form-control"  name="telephone" id="telephone" ng-model="userFormData.telephone"/>
 													<span ng-if="is_company"  >{{companyDetail.telephone}}</span>
 												</td>
 											</tr>
@@ -119,19 +122,19 @@
 								<tr>
 									<th class="warning">Nơi đăng ký KCB</th>
 									<td>
-										<input type="text" class="form-control"  name="placeOfRegister" id="placeOfRegister"/>
+										<input type="text" class="form-control"  name="placeOfRegister" id="placeOfRegister" ng-model="userFormData.placeOfRegister"/>
 									</td>
 								</tr>
 								<tr>
 									<th class="warning">Ngày bắt đầu thẻ BH</th>
 									<td>
-										<input type="date" class="form-control"  name="insuranceStartDate" id="insuranceStartDate"/>
+										<input type="date" class="form-control"  name="insuranceStartDate" id="insuranceStartDate" ng-model="userFormData.insuranceStartDate"/>
 									</td>
 								</tr>
 								<tr>
 									<th class="warning">Ngày kết thúc thẻ BH</th>
 									<td>
-										<input type="date" class="form-control"  name="insuranceEndDate" id="insuranceEndDate"/>
+										<input type="date" class="form-control"  name="insuranceEndDate" id="insuranceEndDate" ng-model="userFormData.insuranceEndDate"/>
 									</td>
 								</tr>
 							</table>
@@ -151,6 +154,8 @@
 		var app = angular.module('app', []);
 		
 		app.controller('registerUser', function($scope, $http) {
+			$scope.messageError = ${messageError};
+			$scope.userFormData = ${userFormData};
 			//set giá trị mặc định
 			$scope.is_company = true;
 			// load company
