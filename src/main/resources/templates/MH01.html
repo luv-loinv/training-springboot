@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LOGIN</title>
+</head>
+<body>
+<div style=" width: 450px; margin: auto ;padding-top: 150px">
+  <!--  <div th:if="${errorMessage}" th:utext="${errorMeassage}" style="color :red"></div>-->
+    <div>
+        <form th:action="@{/login}" th:object="${loginForm}" method="post">
+            <table>
+                <tr>
+                    <td colspan="2"> <h2 > Đăng Nhập Hệ Thống  </h2></td>
+                </tr>
+                <tr>
+                    <td> Tên Đăng Nhập</td>
+                    <td>
+                        <input type="text" class="#" th:field="*{userName}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td> Mật Khẩu</td>
+                    <td>
+                        <input type="password" class="#" th:field="*{password}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align:center">
+                            <input type="submit" value="Đăng Nhập" name="login">
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>
