@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ADD</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+</head>
+<body>
+<form th:action="@{/addCompany}" th:object="${userInfoForm}" method="POST">
+<table>
+   <tr>
+       <td> Mã số thẻ bảo hiểm
+       </td>
+       <td colspan="2">
+           <input type="text" th:field="*{insuranceNumber}"/>
+       </td>
+   </tr>
+    <tr>
+       <td> Họ và tên
+       </td>
+       <td colspan="2">
+           <input type="text" th:field="*{fullName}"/>
+       </td>
+
+   </tr>
+    <tr>
+        <td>Giới Tính
+        </td>
+        <td colspan="2">
+            <select th:field="*{sex}">
+                <option th:value="01"> Nam</option>
+                <option th:value="02">Nữ</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td> Ngày Sinh </td>
+        <td>
+            <input type="text" th:field="*{birthday}"/>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Tên Công Ty</td>
+        <td>
+            <input type="text" th:field="*{companyName}"/>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Địa chỉ </td>
+        <td>
+            <input type="text" th:field="*{companyAddress}"/>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Email</td>
+        <td>
+            <input type="text" th:field="*{email}"/>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Điện Thoại </td>
+        <td>
+            <input type="text" th:field="*{telephone}"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Nơi Đăng ký KCB</td>
+        <td colspan="2">
+            <input type="text" th:field="*{placeOfRegister}"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Ngày bắt đầu </td>
+        <td colspan="2">
+            <input type="text" th:field="*{insuranceStartDate}"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Ngày kết thúc thẻ BH </td>
+        <td colspan="2">
+            <input type="text" th:text="*{insuranceEndDate}"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align: center">
+            <input type="submit" value="Create"/>
+        </td>
+    </tr>
+</table>
+</form>
+</body>
+</html>
