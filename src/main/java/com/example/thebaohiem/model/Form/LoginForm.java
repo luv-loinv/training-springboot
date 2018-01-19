@@ -4,25 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class LoginForm {
 
     @Setter
     @Getter
-    @NotNull
+    @NotEmpty
     private String userName;
 
     @Setter
     @Getter
-    @NotNull
+    @NotEmpty
     private String password;
-
-    public String toString(){
-        return "LoginForm(UserName : "+ this.userName+" , Password :+"+this.password+" ) ";
-    }
 
 }

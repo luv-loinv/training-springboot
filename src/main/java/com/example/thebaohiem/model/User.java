@@ -21,7 +21,6 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@ToString
 @Table(name = "tbl_user")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -63,23 +62,13 @@ public class User {
     @Column(name = "birthdate")
     private String birthdate;
 
-//    @Getter
-//    @Setter
-//    @Column(name = "insurance_internal_id")
-//    private int insuranceInternalId;
-//
-//    @Getter
-//    @Setter
-//    @Column(name = "company_internal_id")
-//    private int companyInternalId;
-
     @Getter
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_internal_id")
     private Company company;
 
-    @OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL,optional=false)
     @JoinColumn(name = "insurance_internal_id")
     @Getter
     @Setter

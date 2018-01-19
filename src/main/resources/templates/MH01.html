@@ -1,18 +1,15 @@
-<!DOCTYPE html>
+
 <html  xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
 </head>
 <body>
 <div style=" width: 450px; margin: auto ;padding-top: 150px">
-    <div>
-        <form th:action="@{/login}" th:object="${loginForm}" method="post">
+        <form th:action="@{/login}" th:object="${account}" method="post">
             <table>
                 <tr>
-                    <!--<td th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" ></td>
-                    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>-->
+                    <td colspan="2"></td>
                 </tr>
                 <tr>
                     <td colspan="2"> <h2 > Đăng Nhập Hệ Thống  </h2></td>
@@ -43,7 +40,6 @@
 
             </table>
         </form>
-    </div>
 </div>
 </body>
 </html>

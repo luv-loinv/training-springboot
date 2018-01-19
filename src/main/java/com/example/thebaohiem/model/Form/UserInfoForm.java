@@ -2,6 +2,7 @@ package com.example.thebaohiem.model.Form;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -13,7 +14,7 @@ public class UserInfoForm {
     @Setter
     private int userInternalID;
 
-    @NotNull
+    @NotEmpty
     @Pattern(regexp="^$|[0-9]{10}")
     @Getter
     @Setter
@@ -21,7 +22,7 @@ public class UserInfoForm {
 
     @Getter
     @Setter
-    @NotNull
+    @NotEmpty
     private String fullName;
 
     @NotNull
@@ -51,17 +52,17 @@ public class UserInfoForm {
 
     @Getter
     @Setter
-    @NotNull
+    @NotEmpty
     private String placeOfRegister;
 
     @Getter
     @Setter
-    @NotNull
+    @NotEmpty
     private String insuranceStartDate;
 
     @Getter
     @Setter
-    @NotNull
+    @NotEmpty
     private String insuranceEndDate;
 
     @Getter

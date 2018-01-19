@@ -7,6 +7,9 @@
 </head>
 <body>
 <form th:action="@{/addCompany}" th:object="${userInfoForm}" method="POST">
+    <input type="hidden" th:field="*{userInternalID}" />
+    <input type="hidden" th:field="*{companyInternalID}" />
+    <input type="hidden" th:field="*{insuranceInternalId}" />
 <table>
    <tr>
        <td> Mã số thẻ bảo hiểm
@@ -82,7 +85,7 @@
     <tr>
         <td>Ngày kết thúc thẻ BH </td>
         <td colspan="2">
-            <input type="text" th:text="*{insuranceEndDate}"/>
+            <input type="text" th:field="*{insuranceEndDate}"/>
         </td>
     </tr>
     <tr>
@@ -91,6 +94,7 @@
         </td>
     </tr>
 </table>
+    <p th:text="${ha}"></p>
 </form>
 </body>
 </html>
