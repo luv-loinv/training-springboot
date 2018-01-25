@@ -58,4 +58,11 @@ public class Insurance {
     @Setter
     @OneToOne(mappedBy = "insurance")
     private User user;
+    public Insurance(String insuranceNumber, String insuranceStartDate, String insuranceEndDate, String placeOfRegister)
+    {
+        this.insuranceEndDate = insuranceEndDate;
+        this.insuranceNumber = insuranceNumber;
+        this.insuranceStartDate = insuranceStartDate;
+        this.placeOfRegister = placeOfRegister;
+    }
 }

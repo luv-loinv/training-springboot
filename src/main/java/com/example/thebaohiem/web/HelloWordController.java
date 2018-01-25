@@ -1,19 +1,18 @@
 package com.example.thebaohiem.web;
 
-import com.example.thebaohiem.Dao.CompanyDao;
 import com.example.thebaohiem.logic.Impl.CompanyLogicImpl;
 import com.example.thebaohiem.logic.Impl.UserLogicImpl;
 import com.example.thebaohiem.model.Company;
 import com.example.thebaohiem.model.Form.LoginForm;
+import com.example.thebaohiem.model.Form.SearchForm;
 import com.example.thebaohiem.model.Form.UserInfoForm;
-import com.example.thebaohiem.model.User;
 import com.example.thebaohiem.model.UserInfo;
+import com.example.thebaohiem.utils.Common;
 import com.example.thebaohiem.validates.LoginValidator;
 import com.example.thebaohiem.validates.RegisterValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -26,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @EnableAutoConfiguration
@@ -61,35 +61,41 @@ public class HelloWordController {
             boolean check = userLogicImpl.checkExistUser(loginForm.getUserName(), loginForm.getPassword());
             if (check == true) {
                 session.setAttribute("loginFormSS", loginForm);
-                return "redirect:/addCompany/1";
+                return "redirect:/addCompany";
             }
             return "MH01";
         }
     }
 
-    @RequestMapping(value = {"/addCompany", "addCompany/{userIdString}"}, method = RequestMethod.GET)
-    public String userInfo(ModelMap modelMap, @PathVariable String userIdString) {
+    @RequestMapping(value = {"/addCompany"}, method = RequestMethod.GET)
+    public String userInfo(ModelMap modelMap) {
         UserInfoForm userInfoForm = new UserInfoForm();
+        modelMap.addAttribute("userInfoForm", userInfoForm);
+        return "MH04";
+    }
+
+    @RequestMapping(value = {"addCompany/{userIdString}"}, method = RequestMethod.GET)
+    public String showUserInfo(ModelMap modelMap, @PathVariable String userIdString) {
         try {
             int userId = Integer.parseInt(userIdString);
-            if (userId> 0) {
-                userInfoForm = userLogicImpl.getUserInfoByUserId(userId);
-                if(userInfoForm == null)
-                {
-                    userInfoForm = new UserInfoForm();
-                }
+            UserInfoForm userInfoForm = userLogicImpl.getUserInfoByUserId(userId);
+            if (userInfoForm == null) {
+                return "redirect:/login";
+            } else {
+                modelMap.addAttribute("userInfoForm", userInfoForm);
+                return "MH04";
             }
-        } finally {
-            modelMap.addAttribute("userInfoForm", userInfoForm);
-            return "MH04";
+        } catch (Exception e) {
+            return "redirect:/login";
         }
     }
+
     @RequestMapping(value = {"/addCompany"}, method = RequestMethod.POST)
     public String addUserInfo(@ModelAttribute("userInfoForm") UserInfoForm userInfoForm, HttpSession session, ModelMap modelMap) {
         RegisterValidator registerValidator = new RegisterValidator();
         List<String> errList = registerValidator.validate(userInfoForm);
         if (errList.size() > 0) {
-            modelMap.addAttribute("userInfo", userInfoForm);
+            modelMap.addAttribute("userInfoForm", userInfoForm);
             modelMap.addAttribute("errList", errList);
             return "MH04";
         } else {
@@ -103,14 +109,22 @@ public class HelloWordController {
 
     }
 
-    @RequestMapping(value = {"/viewDetail"}, method = RequestMethod.GET)
-    public String viewUser(ModelMap modelMap) {
-        UserInfo userInfo = userLogicImpl.findByUserInternalId(1);
-        if (userInfo != null) {
-            modelMap.addAttribute("userInfo", userInfo);
-            return "MH03";
+    @RequestMapping(value = {"/viewDetail/{userIdStr}"}, method = RequestMethod.GET)
+    public String viewUser(ModelMap modelMap, @PathVariable String userIdStr) {
+        try {
+            int userId = Integer.parseInt(userIdStr);
+            UserInfoForm userInfo = userLogicImpl.getUserInfoByUserId(userId);
+            if (userInfo != null) {
+                modelMap.addAttribute("userInfo", userInfo);
+                return "MH03";
+            }
+            return "redirect:/MH02";
         }
-        return "redirect:/MH02";
+        catch (Exception e)
+        {
+           return  "redirect:/Error";
+        }
+
     }
 
     @RequestMapping(value = {"/delete"}, method = RequestMethod.POST)
@@ -121,6 +135,62 @@ public class HelloWordController {
             return "redirect:/login";
         }
         return "redirect:/viewDetail";
+    }
+
+    public HelloWordController() {
+    }
+
+    @RequestMapping(value = {"/searchListUser", "/searchListUser/{action}"}, method = RequestMethod.GET)
+    public String viewSearchUser(ModelMap modelMap, SearchForm formSearch, HttpSession session, @PathVariable Optional<String> action) {
+        List<Company> companyList = companyLogic.getListCompanyList();
+        if (companyList.size() > 0) {
+            if (action.isPresent()) {
+                String actionValue = action.get();
+                switch (actionValue) {
+                    case "search":
+                        formSearch.setCurrentPage("1");
+                        formSearch.setSortType("DESC");
+                        break;
+                    case "sort":
+                        formSearch.setSortType(Common.getSortType(formSearch.getSortType()));
+                        break;
+                    case "paging":
+                        //  formSearch.setCurrentPage(Common.getCurrentPage(formSearch.getCurrentPage()));
+                    case "back":
+                        Object formSearchSesion = session.getAttribute("formSearch");
+                        if (formSearchSesion != null) {
+                            formSearch = (SearchForm) formSearchSesion;
+                        } else
+                            formSearch = new SearchForm();
+                        break;
+                }
+            }
+            int currentPage;
+            int companyId = Common.getInt(formSearch.getCompanyId());
+            formSearch.setCompanyId(""+companyId);
+            int totalRecord = userLogicImpl.getTotalPage(formSearch);
+            if (totalRecord > 0) {
+                int limit = 2;
+                int totalPage = Common.getTotalPage(totalRecord, limit);
+                currentPage = Common.getCurrentPage(formSearch.getCurrentPage(), totalPage);
+                formSearch.setCurrentPage(""+currentPage);
+                List<UserInfo> userInfoList = userLogicImpl.getListUserInfo(formSearch);
+                List<Integer> pagingList = Common.getListPaging(totalPage, currentPage, 5);
+                modelMap.addAttribute("pagingList", pagingList);
+                modelMap.addAttribute("userInfoList", userInfoList);
+                modelMap.addAttribute("currentPage", currentPage);
+                modelMap.addAttribute("totalPage", totalPage);
+            } else {
+                String mess = "không tìm thấy bản ghi";
+                modelMap.addAttribute("mess", mess);
+            }
+            modelMap.addAttribute("formSearch", formSearch);
+            modelMap.addAttribute("companyList", companyList);
+            session.setAttribute("searchForm", formSearch);
+
+            return "MH02";
+        }
+        return "redirect:/Error";
     }
 }
 

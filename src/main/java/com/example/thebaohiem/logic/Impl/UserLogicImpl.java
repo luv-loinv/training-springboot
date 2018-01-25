@@ -6,6 +6,7 @@ import com.example.thebaohiem.Dao.UserDao;
 import com.example.thebaohiem.Dao.custom.UserDaoCustom;
 import com.example.thebaohiem.model.Company;
 import com.example.thebaohiem.model.Form.LoginForm;
+import com.example.thebaohiem.model.Form.SearchForm;
 import com.example.thebaohiem.model.Form.UserInfoForm;
 import com.example.thebaohiem.model.Insurance;
 import com.example.thebaohiem.model.User;
@@ -15,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserLogicImpl {
@@ -27,21 +30,32 @@ public class UserLogicImpl {
     @Autowired
     CompanyDao companyDao;
 
-
+    /**
+     * check User existed in tbl_user with userName and password
+     *
+     * @param userName : userName
+     * @param password : password
+     * @return : true :existed , false ; not exist
+     */
     public boolean checkExistUser(String userName, String password) {
-        return userDao.findByUserNameAndPassword(userName, password).size() > 0 ? true : false;
+        return userDao.findByUserNameAndPassword(userName, password).size() > 0;
     }
 
+    /**
+     * @param userInfoForm
+     * @param loginForm
+     * @return
+     */
     public boolean insertUserInfo(UserInfoForm userInfoForm, LoginForm loginForm) {
         Company company = new Company();
         if (userInfoForm.getCompanyInternalID() == 0) {
             company.setCompanyInternalId(userInfoForm.getCompanyInternalID());
             company.setCompanyName(userInfoForm.getCompanyName());
             company.setAddress(userInfoForm.getCompanyAddress());
-            if (Common.checkEmpty(userInfoForm.getEmail()) == false) {
+            if (Common.isEmpty(userInfoForm.getEmail()) == false) {
                 company.setEmail(userInfoForm.getEmail());
             }
-            if (Common.checkEmpty(userInfoForm.getTelephone()) == false) {
+            if (Common.isEmpty(userInfoForm.getTelephone()) == false) {
                 company.setTelephone(userInfoForm.getTelephone());
             }
 
@@ -66,54 +80,62 @@ public class UserLogicImpl {
 
     }
 
-    public UserInfo findByUserInternalId(int userInternalId) {
-        User user = userDao.findByUserInternalId(userInternalId);
-        if (user != null) {
-            UserInfo userInfo = new UserInfo();
-            userInfo.setBirthdate(user.getBirthdate());
-            userInfo.setInsuranceEndDate(user.getInsurance().getInsuranceEndDate());
-            userInfo.setInsuranceStartDate(user.getInsurance().getInsuranceStartDate());
-            userInfo.setInsuranceNumber(user.getInsurance().getInsuranceNumber());
-            userInfo.setPlaceOfRegister(user.getInsurance().getPlaceOfRegister());
-            userInfo.setUserSexDivision(user.getUserSexDivision());
-            userInfo.setCompanyInternalId(user.getCompany().getCompanyInternalId());
-            userInfo.setCompanyName(user.getCompany().getCompanyName());
-            userInfo.setUserFullName(user.getUserFullName());
-            userInfo.setUserInternalId(userInternalId);
-            userInfo.setInsuranceId(user.getInsurance().getInsuranceInternalId());
-
-            return userInfo;
-        }
-        return null;
-    }
-
+    /**
+     * @param userId
+     * @return
+     */
     @Transactional
     public boolean deleteUserInfo(int userId) {
         userDao.delete(userId);
         return true;
     }
 
+    /**
+     * @param userId
+     * @return
+     */
     public UserInfoForm getUserInfoByUserId(int userId) {
-        User user = userDao.findByUserInternalId(userId);
-        if (user != null) {
-            UserInfoForm userInfo = new UserInfoForm();
-            userInfo.setBirthday(Common.convertDateMysql(user.getBirthdate()));
-            userInfo.setInsuranceEndDate(Common.convertDateMysql(user.getInsurance().getInsuranceEndDate()));
-            userInfo.setInsuranceStartDate(Common.convertDateMysql(user.getInsurance().getInsuranceStartDate()));
-            userInfo.setInsuranceNumber(user.getInsurance().getInsuranceNumber());
-            userInfo.setPlaceOfRegister(user.getInsurance().getPlaceOfRegister());
-            userInfo.setSex(user.getUserSexDivision());
-            userInfo.setCompanyAddress(user.getCompany().getAddress());
-            userInfo.setEmail((user.getCompany().getEmail()));
-            userInfo.setTelephone(user.getCompany().getTelephone());
-            userInfo.setCompanyName(user.getCompany().getCompanyName());
-            userInfo.setFullName(user.getUserFullName());
-            userInfo.setUserInternalID(userId);
-            userInfo.setCompanyInternalID(user.getCompany().getCompanyInternalId());
-            userInfo.setInsuranceInternalId(user.getInsurance().getInsuranceInternalId());
-            return userInfo;
+        return Common.getUserInfoFormFromUser(userDao.findByUserInternalId(userId));
+    }
 
+    public List<UserInfo> getListUserInfo(SearchForm searchForm) {
+        String insuranceNumber = searchForm.getInsuranceNumber();
+        int companyId = Integer.parseInt(searchForm.getCompanyId());
+        int limit = 5;
+        String fullName = Common.replaceWildcard(searchForm.getFullName());
+        String placeOfRegister = Common.replaceWildcard(searchForm.getPlaceOfRegister());
+        int currentPage = Integer.parseInt(searchForm.getCurrentPage());
+        String sortType = searchForm.getSortType();
+        int offset = Common.getOffset(currentPage, limit);
+        List<UserInfo> userInfoList = userDaoCustom.getListUserInfo(companyId, fullName, insuranceNumber, placeOfRegister, offset, limit, sortType);
+        List<UserInfo> userInfoList1 = new ArrayList<>();
+        for (UserInfo userInfo : userInfoList
+                ) {
+            userInfo.setBirthdate(Common.convertDateMysql(userInfo.getBirthdate()));
+            userInfo.setInsuranceEndDate(Common.convertDateMysql(userInfo.getInsuranceEndDate()));
+            userInfo.setInsuranceStartDate(Common.convertDateMysql(userInfo.getInsuranceStartDate()));
+            userInfo.setUserSexDivision(Common.getSex(userInfo.getUserSexDivision()));
+            userInfoList1.add(userInfo);
         }
-        return null;
+        return userInfoList1;
+    }
+
+    public int getTotalPage(SearchForm searchForm) {
+        String regex = "";
+        int count = 0;
+        String insuranceNumber = searchForm.getInsuranceNumber();
+        if (Common.isEmpty(insuranceNumber) || Common.checkFormat(insuranceNumber, regex)) {
+            int companyId = Integer.parseInt(searchForm.getCompanyId());
+            String fullName = searchForm.getFullName();
+            if (fullName.length() < 51) {
+                fullName = Common.replaceWildcard(fullName);
+                String placeOfRegister = Common.replaceWildcard(searchForm.getPlaceOfRegister());
+                if (placeOfRegister.length() < 51) {
+                    placeOfRegister = Common.replaceWildcard(placeOfRegister);
+                    count = userDaoCustom.getTotalUser(companyId, fullName, insuranceNumber, placeOfRegister);
+                }
+            }
+        }
+        return count;
     }
 }

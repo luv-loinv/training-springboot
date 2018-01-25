@@ -17,17 +17,16 @@ public class ErrorMessageProperties {
             e.printStackTrace();
         }
 
-        Enumeration<String> en  = (Enumeration<String>)prop.propertyNames();
+        Enumeration<String> en = (Enumeration<String>) prop.propertyNames();
         while (en.hasMoreElements()) {
-            String key = (String)en.nextElement();
+            String key = (String) en.nextElement();
             data.put(key, prop.getProperty(key));
         }
     }
 
-
-
     /**
      * getData from file properties
+     *
      * @param key key
      * @return String
      */

@@ -68,10 +68,20 @@ public class User {
     @JoinColumn(name = "company_internal_id")
     private Company company;
 
-    @OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL,optional=false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "insurance_internal_id")
     @Getter
     @Setter
     private Insurance insurance;
 
+    public User(String userName, String password, String fullName, String sex, Company company , Insurance insurance) {
+    this.userName = userName;
+    this.password = password;
+    this.userFullName = fullName;
+    this.userSexDivision = sex;
+    this.company = company;
+    this.insurance = insurance;
+
+
+    }
 }

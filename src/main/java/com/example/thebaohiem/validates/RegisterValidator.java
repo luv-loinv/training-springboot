@@ -1,6 +1,5 @@
 package com.example.thebaohiem.validates;
 
-import com.example.thebaohiem.Dao.InsuranceDao;
 import com.example.thebaohiem.logic.Impl.CompanyLogicImpl;
 import com.example.thebaohiem.logic.Impl.InsuranceLogicImpl;
 import com.example.thebaohiem.model.Form.UserInfoForm;
@@ -17,16 +16,19 @@ public class RegisterValidator {
     private CompanyLogicImpl companyLogic;
     @Autowired
     private InsuranceLogicImpl insuranceLogicImpl;
-    @Autowired
-    private InsuranceDao insuranceDao;
 
+    /**
+     * validate information to insert data into database.
+     * @param userInfoForm : userInfo
+     * @return List<String>
+     */
     public List<String> validate(UserInfoForm userInfoForm) {
 
         List<String> errList = new ArrayList<>();
         //validate insuranceNumber
         //check empty
         String insuranceNumber = userInfoForm.getInsuranceNumber();
-        if (Common.checkEmpty(insuranceNumber) == true) {
+        if (Common.isEmpty(insuranceNumber)) {
             errList.add(ErrorMessageProperties.getMessage("NotEmpty.userInfoForm.insuranceNumber"));
         }
         //check check length
@@ -44,7 +46,7 @@ public class RegisterValidator {
         // validate fullName
         //check empty
         String fullName = userInfoForm.getFullName();
-        if (Common.checkEmpty(fullName) == true) {
+        if (Common.isEmpty(fullName)) {
             errList.add(ErrorMessageProperties.getMessage("NotEmpty.userInfoForm.fullName"));
         } else if (Common.checkLength(fullName, 1, 50) == false) {
             errList.add(ErrorMessageProperties.getMessage("Invalid.usrInfoForm.fullName"));
@@ -52,7 +54,7 @@ public class RegisterValidator {
         // validate birthday
         // check empty birthday
         String birthday = userInfoForm.getBirthday();
-        if (Common.checkEmpty(birthday) == false) {
+        if (Common.isEmpty(birthday) == false) {
             // check date
             if (Common.checkDate(birthday) == false) {
                 errList.add(ErrorMessageProperties.getMessage("Invalid.userInfoForm.birthday"));
@@ -61,7 +63,7 @@ public class RegisterValidator {
         //validate registerOfPlace
         // check empty
         String registerOfPlace = userInfoForm.getPlaceOfRegister();
-        if (Common.checkEmpty(registerOfPlace) == true) {
+        if (Common.isEmpty(registerOfPlace) == true) {
             errList.add(ErrorMessageProperties.getMessage("NotEmpty.userInfoForm.placeOfRegister"));
         } else if (Common.checkLength(registerOfPlace, 1, 50) == false) {
             errList.add(ErrorMessageProperties.getMessage("Invalid.userInfoForm.registerOfPlace"));
@@ -69,7 +71,7 @@ public class RegisterValidator {
         // validate startdate
         // check empty
         String startDate = userInfoForm.getInsuranceStartDate();
-        if (Common.checkEmpty(startDate) == true) {
+        if (Common.isEmpty(startDate) == true) {
             errList.add(ErrorMessageProperties.getMessage("NotEmpty.userInfoForm.insuranceStartDate"));
         }
         //check format
@@ -79,7 +81,7 @@ public class RegisterValidator {
         // validate end date
         //check empty
         String endDate = userInfoForm.getInsuranceEndDate();
-        if (Common.checkEmpty(endDate) == true) {
+        if (Common.isEmpty(endDate) == true) {
             errList.add(ErrorMessageProperties.getMessage("NotEmpty.userInfoForm.insuranceEndDate"));
         } else if (Common.checkDate(endDate) == false) {
             errList.add(ErrorMessageProperties.getMessage("Invalid.userInfoForm.insuranceEndDate"));
@@ -93,7 +95,7 @@ public class RegisterValidator {
             String companyName = userInfoForm.getCompanyName();
             // validate companyName
             // check empty
-            if (Common.checkEmpty(companyName) == true) {
+            if (Common.isEmpty(companyName) == true) {
                 errList.add(ErrorMessageProperties.getMessage("NotEmpty.userInfoForm.companyName"));
             }//check length
             else if (Common.checkLength(companyName, 1, 50) == false) {
@@ -103,7 +105,7 @@ public class RegisterValidator {
             //check empty
             String address = userInfoForm.getCompanyAddress();
 
-            if (Common.checkEmpty(address) == true) {
+            if (Common.isEmpty(address) == true) {
                 errList.add(ErrorMessageProperties.getMessage("NotEmpty.userInfoForm.companyAddress"));
             } else if (Common.checkLength(address, 1, 100) == false) {
                 errList.add(ErrorMessageProperties.getMessage("Invalid.userInfoForm.companyAddress"));
@@ -112,7 +114,7 @@ public class RegisterValidator {
             String pattern = "^$|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
             // validate email
             //check emmpty
-            if (Common.checkEmpty(email) == false) {
+            if (Common.isEmpty(email) == false) {
                 //check length
                 if (Common.checkLength(email, 1, 50) == false) {
                     errList.add(ErrorMessageProperties.getMessage("Invalid.userInfoForm.email"));
@@ -127,7 +129,7 @@ public class RegisterValidator {
                 }
             }
             String tel = userInfoForm.getTelephone();
-            if (Common.checkEmpty(tel) == false) {
+            if (Common.isEmpty(tel) == false) {
                 String patternNumber = "^\\d+$";
                 //check length
                 if (Common.checkLength(tel, 8, 15) == false) {

@@ -21,7 +21,7 @@ import java.util.Set;
 
 @Entity
 @ToString
-@Table(name="tbl_company")
+@Table(name = "tbl_company")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Company {
@@ -29,36 +29,51 @@ public class Company {
     @Getter
     @Setter
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "company_internal_id")
-    private  int companyInternalId;
+    private int companyInternalId;
 
     @Getter
     @Setter
     @NotNull
     @Column(name = "company_name")
-    private  String companyName;
+    private String companyName;
 
     @Getter
     @Setter
     @NotNull
-    @Column(name ="address")
-    private  String address;
+    @Column(name = "address")
+    private String address;
 
     @Getter
     @Setter
-    @Column(name ="email")
-    private  String email;
+    @Column(name = "email")
+    private String email;
 
     @Getter
     @Setter
-    @NotNull
-    @Column(name ="telephone")
-    private  String telephone;
+    @Column(name = "telephone")
+    private String telephone;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
     @Getter
     @Setter
     private Set<User> userSet;
 
+    public Company(String companyName, String companyAddress) {
+        this.companyName = companyName;
+        this.address = companyAddress;
+    }
+
+    public Company(String companyName, String companyAddress, String email, String telephone) {
+        this.companyName = companyName;
+        this.address = companyAddress;
+        this.email = email;
+        this.telephone = telephone;
+    }
+
+    public Company(int companyInternalId, String companyName) {
+        this.companyName = companyName;
+        this.companyInternalId = companyInternalId;
+    }
 }
